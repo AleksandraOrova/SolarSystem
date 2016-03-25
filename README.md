@@ -15,9 +15,9 @@
 ## Минимально работоспособный продукт (Minimum viable product)
 
 ## Диаграмма прецедентов использования
-![alt text](https://pp.vk.me/c633224/v633224386/1d307/Oyq_QPn9SaY.jpg)
+![alt text](https://pp.vk.me/c613420/v613420386/1dc45/WpjyZfiPHyk.jpg)
 ## Диаграмма последовательностей
 В процессе разработки.
 ![alt text]()
 ## Диаграмма компонентов
-![alt text]()
+![alt text](https://pp.vk.me/c613420/v613420386/1dc4c/_aZTys1PTDU.jpg)
