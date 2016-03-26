@@ -20,4 +20,4 @@
 В процессе разработки.
 ![alt text]()
 ## Диаграмма компонентов
-![alt text](https://pp.vk.me/c613420/v613420386/1dc4c/_aZTys1PTDU.jpg)
+![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/ComponentDiagram1.jpg)
