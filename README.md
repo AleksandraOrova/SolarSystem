@@ -18,6 +18,7 @@
 ![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/UseCaseDiagram1.jpg)
 ![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/UseCaseDiagram2.jpg)
 ![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/UseCaseDiagram3.jpg)
+![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/5766a3d8aab83c685f38cf38a35a9a46ef721bb0/report/UseCaseDiagram4.jpg)
 
 ## Диаграмма компонентов
 ![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/ComponentDiagram1.jpg)
