@@ -15,7 +15,7 @@
 ## Минимально работоспособный продукт (Minimum viable product)
 
 ## Диаграмма прецедентов использования
-![alt text](https://pp.vk.me/c613420/v613420386/1dc45/WpjyZfiPHyk.jpg)
+![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/UseCaseDiagram1.jpg)
 
 ## Диаграмма компонентов
 ![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/ComponentDiagram1.jpg)
