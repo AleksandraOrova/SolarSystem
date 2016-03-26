@@ -16,6 +16,7 @@
 
 ## Диаграмма прецедентов использования
 ![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/UseCaseDiagram1.jpg)
+![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/UseCaseDiagram2..jpg)
 
 ## Диаграмма компонентов
 ![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/ComponentDiagram1.jpg)
