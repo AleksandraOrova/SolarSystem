@@ -14,6 +14,8 @@
 
 ## Минимально работоспособный продукт (Minimum viable product)
 
+Кроссплатформенное консольное приложение, способное продемонстрировать пользователю координаты выбранных небесных тел в заданный момент даты и времени.
+
 ## Диаграмма прецедентов использования
 ![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/UseCaseDiagram1.jpg)
 ![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/UseCaseDiagram2.jpg)
@@ -25,4 +27,3 @@
 
 ## Диаграмма последовательностей
 В процессе разработки.
-![alt text]()
