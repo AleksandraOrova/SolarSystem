@@ -26,5 +26,5 @@
 ## Диаграмма компонентов
 ![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/ComponentDiagram1.jpg)
 
-## Диаграмма последовательностей
-В процессе разработки.
+## Диаграмма последовательностей для интерфейса
+![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/SequenceDiagram1.jpg)
