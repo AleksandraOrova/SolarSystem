@@ -1,9 +1,10 @@
-#include <iostream>
+#include "solarSystem.h"
 
 using namespace std;
 
-int main(int argc, char *argv[])
+int main()
 {
-    cout << "Hello World!" << endl;
+    ConsoleApp app;
+       app.Menu();
     return 0;
 }
