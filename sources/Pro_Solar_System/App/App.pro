@@ -4,8 +4,13 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    solarsystem.cpp \
-    system.cpp
+    consoleapp.cpp \
+    planetinfo.cpp \
+    vector3.cpp \
+    solarsystem.cpp
 
 HEADERS += \
-    solarSystem.h
+    consoleapp.h \
+    planetinfo.h \
+    vector3.h \
+    solarsystem.h

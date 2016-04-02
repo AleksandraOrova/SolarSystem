@@ -49,11 +49,15 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../../Pro_Solar_System/App/main.cpp \
-		../../Pro_Solar_System/App/solarsystem.cpp \
-		../../Pro_Solar_System/App/system.cpp 
+		../../Pro_Solar_System/App/consoleapp.cpp \
+		../../Pro_Solar_System/App/planetinfo.cpp \
+		../../Pro_Solar_System/App/vector3.cpp \
+		../../Pro_Solar_System/App/solarsystem.cpp 
 OBJECTS       = main.o \
-		solarsystem.o \
-		system.o
+		consoleapp.o \
+		planetinfo.o \
+		vector3.o \
+		solarsystem.o
 DIST          = ../../../../Qt/5.6/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.6/gcc_64/mkspecs/common/unix.conf \
 		../../../../Qt/5.6/gcc_64/mkspecs/common/linux.conf \
@@ -182,9 +186,14 @@ DIST          = ../../../../Qt/5.6/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.6/gcc_64/mkspecs/features/exceptions.prf \
 		../../../../Qt/5.6/gcc_64/mkspecs/features/yacc.prf \
 		../../../../Qt/5.6/gcc_64/mkspecs/features/lex.prf \
-		../../Pro_Solar_System/App/App.pro solarSystem.h ../../Pro_Solar_System/App/main.cpp \
-		../../Pro_Solar_System/App/solarsystem.cpp \
-		../../Pro_Solar_System/App/system.cpp
+		../../Pro_Solar_System/App/App.pro consoleapp.h \
+		planetinfo.h \
+		vector3.h \
+		solarsystem.h ../../Pro_Solar_System/App/main.cpp \
+		../../Pro_Solar_System/App/consoleapp.cpp \
+		../../Pro_Solar_System/App/planetinfo.cpp \
+		../../Pro_Solar_System/App/vector3.cpp \
+		../../Pro_Solar_System/App/solarsystem.cpp
 QMAKE_TARGET  = App
 DESTDIR       = 
 TARGET        = App
@@ -495,14 +504,29 @@ compiler_clean:
 
 ####### Compile
 
-main.o: ../../Pro_Solar_System/App/main.cpp ../../Pro_Solar_System/App/solarSystem.h
+main.o: ../../Pro_Solar_System/App/main.cpp ../../Pro_Solar_System/App/consoleapp.h \
+		../../Pro_Solar_System/App/solarsystem.h \
+		../../Pro_Solar_System/App/planetinfo.h \
+		../../Pro_Solar_System/App/vector3.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../Pro_Solar_System/App/main.cpp
 
-solarsystem.o: ../../Pro_Solar_System/App/solarsystem.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o solarsystem.o ../../Pro_Solar_System/App/solarsystem.cpp
+consoleapp.o: ../../Pro_Solar_System/App/consoleapp.cpp ../../Pro_Solar_System/App/consoleapp.h \
+		../../Pro_Solar_System/App/solarsystem.h \
+		../../Pro_Solar_System/App/planetinfo.h \
+		../../Pro_Solar_System/App/vector3.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o consoleapp.o ../../Pro_Solar_System/App/consoleapp.cpp
 
-system.o: ../../Pro_Solar_System/App/system.cpp ../../Pro_Solar_System/App/solarSystem.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o system.o ../../Pro_Solar_System/App/system.cpp
+planetinfo.o: ../../Pro_Solar_System/App/planetinfo.cpp ../../Pro_Solar_System/App/planetinfo.h \
+		../../Pro_Solar_System/App/vector3.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o planetinfo.o ../../Pro_Solar_System/App/planetinfo.cpp
+
+vector3.o: ../../Pro_Solar_System/App/vector3.cpp ../../Pro_Solar_System/App/vector3.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vector3.o ../../Pro_Solar_System/App/vector3.cpp
+
+solarsystem.o: ../../Pro_Solar_System/App/solarsystem.cpp ../../Pro_Solar_System/App/solarsystem.h \
+		../../Pro_Solar_System/App/planetinfo.h \
+		../../Pro_Solar_System/App/vector3.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o solarsystem.o ../../Pro_Solar_System/App/solarsystem.cpp
 
 ####### Install
 

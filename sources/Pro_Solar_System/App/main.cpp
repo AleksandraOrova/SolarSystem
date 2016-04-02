@@ -1,10 +1,10 @@
-#include "solarSystem.h"
+#include "consoleapp.h"
 
 using namespace std;
 
 int main()
 {
     ConsoleApp app;
-       app.Menu();
+    app.run();
     return 0;
 }
