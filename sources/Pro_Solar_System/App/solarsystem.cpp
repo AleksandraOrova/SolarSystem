@@ -1,7 +1,6 @@
-#include "solarSystem.h"
+#include "solarsystem.h"
 
-/*solarSystem::solarSystem()
+SolarSystem::SolarSystem()
 {
 
 }
-*/
