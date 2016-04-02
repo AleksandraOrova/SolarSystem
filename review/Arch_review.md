@@ -1,1 +1,7 @@
-rfvdrgfregrgevr
+# Review
+
+### Замечания, рекомендации:
+* Не нужно хранить в репозитории артефакты сборки. Папку **build-Pro_Solar_System-Desktop_Qt_5_6_0_GCC_64bit-Debug** и файлы **Pro_Solar_System.pro.user**, **Pro_Solar_System.pro.user.150dcd8**. Лучше удалить из под контроля версий и создать файл.
+* Лучше добавить файл .gitignore в репоззиторий, это облегчит работу с git.
+
+* Продолжай работу над проектом.
