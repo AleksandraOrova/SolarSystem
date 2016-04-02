@@ -9,18 +9,18 @@ build_release_version() {
 	if [ -e "Makefile" ]; then
 		make --version
 		make
-		cd ../..
 	else
 		echo "Makefile does not exist"
 		echo "Build release version failure!"
 		exit 1
-	fi	
+	fi
+	cd ../..
 }
 
 build_debug_version() {
 	cd sources/Pro_Solar_System
 	cloc --version
-	cloc --by-file --xml --out=../../report/clock
+	cloc --by-file --xml --out=../../report/clock_result
 	qmake --version
 	qmake "QMAKE_CXXFLAGS+=-fprofile-arcs -ftest-coverage -fPIC -O0 -g --coverage" "LIBS+=-lgcov"
 	if [ -e "Makefile" ]; then
@@ -33,7 +33,7 @@ build_debug_version() {
 		gcovr -r . --xml --exclude='tst*' -o ../../report/gcovr_result
 		
 		valgrind --version
-		valgrind --leak-check=full --xml=yes --xml-file=/opt/tomcat/.jenkins/jobs/FootballEditor16/workspace/tst_testcore.%p.result /opt/tomcat/.jenkins/jobs/FootballEditor16/workspace/sources/FootballEditor16/Test/tst_testcore || true
+	#	valgrind --leak-check=full --xml=yes --xml-file=/opt/tomcat/.jenkins/jobs/Solar System/workspace/tst_testcore.%p.result /opt/tomcat/.jenkins/jobs/Solar System/workspace/sources/Pro_Solar_System/Test/tst_testcore || true
 
 		cd ../..
 	else
@@ -52,16 +52,11 @@ make_report() {
 			echo "Doxygen failed"
 			echo "doxygen.ini does not exist"
 		fi
-	cd sources/FootballEditor16/doxygen/latex
+	cd latex
 	if [ -e "Makefile" ]; then
 		make --version
 		make
-#		cd ../../../../report
-#		pdflatex FootballEditor16.tex
-#		pdflatex FootballEditor16.tex
-#		pdflatex FootballEditor16.tex
-#		cd ..
-		cd ../../../..
+		cd ../..
 	else
 		echo "Makefile does not exist"
 		echo "Report failure!"
@@ -77,16 +72,13 @@ zip_files() {
 		exit 1
 	fi
 
-	TITLE="${JOB_NAME}_v${BUILD_NUMBER}"
+	TITLE="${JOB_NAME}${BUILD_NUMBER}"
 	mkdir "$TITLE"
 
-	if [ -e "sources/FootballEditor16/ConsoleApp/ConsoleApp" ]; then
-		cp sources/FootballEditor16/ConsoleApp/ConsoleApp $TITLE/FootballEditor16_v${BUILD_NUMBER}
-		if [ -e "report/FootballEditor16.pdf" ]; then
-			cp report/FootballEditor16.pdf $TITLE/FootballEditor16_v${BUILD_NUMBER}.pdf
-		fi
-		if [ -e "sources/FootballEditor16/doxygen/latex/refman.pdf" ]; then
-			cp sources/FootballEditor16/doxygen/latex/refman.pdf $TITLE/FootballEditor16Doxygen_v${BUILD_NUMBER}.pdf
+	if [ -e "sources/Pro_SOlar_System/App/App" ]; then
+		cp sources/Pro_SOlar_System/App/App $TITLE/sources/Pro_SOlar_System/App/App${BUILD_NUMBER}
+		if [ -e "report/latex/refman.pdf" ]; then
+			cp report/latex/refman.pdf $TITLE/refmanDoxygen${BUILD_NUMBER}.pdf
 		fi
 		zip --version
 		zip $TITLE.zip $TITLE/*
