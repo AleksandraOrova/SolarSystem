@@ -3,7 +3,9 @@
 
 #include "planetinfo.h"
 #include <string>
-
+/**
+ * @brief The SolarSystem class
+ */
 class SolarSystem
 {
 private:
