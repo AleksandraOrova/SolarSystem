@@ -1,9 +1,10 @@
-#include <iostream>
+#include "consoleapp.h"
 
 using namespace std;
 
-int main(int argc, char *argv[])
+int main()
 {
-    cout << "Hello World!" << endl;
+    ConsoleApp app;
+    app.run();
     return 0;
 }

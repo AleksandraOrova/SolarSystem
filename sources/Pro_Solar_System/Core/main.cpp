@@ -4,6 +4,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    cout << "Hello World!" << endl;
+    //ConsoleApp app;
+    //app.Menu();
     return 0;
 }
