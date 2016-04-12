@@ -20,7 +20,12 @@ void Vector3::moveBy(float dx, float dy, float dz)
     y+=dy;
     z+=dz;
 }
-char* Vector3::toString()
+ostream& operator << (ostream& out, const Vector3& vector3)
 {
-    return 0;
+    if (&vector3==NULL){
+        out << "NULL";
+        return out;
+    }
+    out << "(" << vector3.x << " ; " << vector3.y << " ; " << vector3.z << ")";
+    return out;
 }
