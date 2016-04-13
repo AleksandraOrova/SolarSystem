@@ -3,7 +3,7 @@
 export PATH=$PATH:/opt/Qt5.5.0/5.5/gcc_64/bin/
 
 build_release_version() {
-	cd sources/Pro_Solar_System
+	cd sources2/Solar_S
 	qmake --version
 	qmake
 	if [ -e "Makefile" ]; then
@@ -18,7 +18,7 @@ build_release_version() {
 }
 
 build_debug_version() {
-	cd sources/Pro_Solar_System
+	cd sources2/Solar_S
 	cloc --version
 	cloc --by-file --xml --out=../../report/clock_result
 	qmake --version
