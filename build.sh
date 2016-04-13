@@ -26,14 +26,14 @@ build_debug_version() {
 	if [ -e "Makefile" ]; then
 		make --version
 		make
-		#Test/tst_testcore -xml -o test_results || true
+		Test/tst_testcore -xml -o test_results || true
 		cppcheck --version
 		cppcheck --enable=all -v  --xml  * 2> ../../report/cppcheck_result
 		gcovr --version
 		gcovr -r . --xml --exclude='tst*' -o ../../report/gcovr_result
 		
 		valgrind --version
-	#	valgrind --leak-check=full --xml=yes --xml-file=/opt/tomcat/.jenkins/jobs/Solar System/workspace/tst_testcore.%p.result /opt/tomcat/.jenkins/jobs/Solar System/workspace/sources/Pro_Solar_System/Test/tst_testcore || true
+		valgrind --leak-check=full --xml=yes --xml-file=/opt/tomcat/.jenkins/jobs/Solar System/workspace/report/tst_testcore.%p.result /opt/tomcat/.jenkins/jobs/Solar System/workspace/sources2/Solar_S/Test/tst_testcore || true
 
 		cd ../..
 	else
@@ -75,8 +75,8 @@ zip_files() {
 	TITLE="${JOB_NAME}${BUILD_NUMBER}"
 	mkdir "$TITLE"
 
-	if [ -e "sources/Pro_SOlar_System/App/App" ]; then
-		cp sources/Pro_SOlar_System/App/App $TITLE/sources/Pro_SOlar_System/App/App${BUILD_NUMBER}
+	if [ -e "sources2/_Solar_S/App/App" ]; then
+		cp sources2/Solar_S/App/App $TITLE/App${BUILD_NUMBER}
 		if [ -e "report/latex/refman.pdf" ]; then
 			cp report/latex/refman.pdf $TITLE/refmanDoxygen${BUILD_NUMBER}.pdf
 		fi
