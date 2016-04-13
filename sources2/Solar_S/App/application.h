@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "solarsystem.h"
+#include <math.h>
 using namespace std;
 
 class Application

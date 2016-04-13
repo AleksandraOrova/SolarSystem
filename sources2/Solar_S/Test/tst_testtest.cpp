@@ -1,5 +1,6 @@
 #include <QString>
 #include <QtTest>
+#include "timehoursseconds.h"
 
 class TestTest : public QObject
 {
@@ -9,16 +10,16 @@ public:
     TestTest();
 
 private Q_SLOTS:
-    void testCase1();
+    void addPlanet();
 };
 
-TestTest::TestTest()
-{
+TestTest::TestTest(){
 }
 
-void TestTest::testCase1()
+void TestTest::addPlanet()
 {
-    QVERIFY2(true, "Failure");
+    TimeHoursSeconds tmp(7200, 0, 0, 0);
+    QCOMPARE(tmp.fromStoHours(), 2.0f);
 }
 
 QTEST_APPLESS_MAIN(TestTest)

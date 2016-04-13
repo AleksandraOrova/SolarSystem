@@ -1,25 +1,27 @@
 #include "solarsystem.h"
 
-SolarSystem::SolarSystem()
-{
+SolarSystem::SolarSystem(){
     planetsCount = 0;
     planets = 0;
 }
-SolarSystem::SolarSystem(int count)
-{
+
+SolarSystem::SolarSystem(int count){
     planetsCount = count;
     planets = new Planet*[count];
 }
-void SolarSystem::step(float delta)
-{
-    for(int i = 0; i < planetsCount; i++)
-        planets[i]->step(delta);
+
+void SolarSystem::step(float delta){
 }
+
 void SolarSystem::addPlanet(Planet* planet, int id){
     if (id>=planetsCount)
         return;
     planets[id] = planet;
 }
+
+/*int SolarSystem::planetsCount(){
+    return planetsCount;
+}*/
 
 ostream& operator << (ostream& out, const SolarSystem& solarSystem){
     if (&solarSystem==NULL){
