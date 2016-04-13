@@ -33,7 +33,7 @@ build_debug_version() {
 		gcovr -r . --xml --exclude='tst*' -o ../../report/gcovr_result
 		
 		valgrind --version
-		valgrind --leak-check=full --xml=yes --xml-file=/opt/tomcat/.jenkins/jobs/SolarSystem/workspace/report/tst_testcore.%p.result /opt/tomcat/.jenkins/jobs/SolarSystem/workspace/sources2/Solar_S/Test/tst_testcore || true
+		valgrind --leak-check=full --xml=yes --xml-file=/opt/tomcat/.jenkins/jobs/SolarSystem/workspace/report/tst_testtest.%p.result /opt/tomcat/.jenkins/jobs/SolarSystem/workspace/sources2/Solar_S/Test/tst_testtest || true
 
 		cd ../..
 	else
