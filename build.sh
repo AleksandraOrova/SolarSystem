@@ -26,7 +26,7 @@ build_debug_version() {
 	if [ -e "Makefile" ]; then
 		make --version
 		make
-		Test/tst_testcore -xml -o test_results || true
+		Test/tst_testcore -xml -o ../../report/test_results || true 
 		cppcheck --version
 		cppcheck --enable=all -v  --xml  * 2> ../../report/cppcheck_result
 		gcovr --version
