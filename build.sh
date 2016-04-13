@@ -20,7 +20,7 @@ build_release_version() {
 build_debug_version() {
 	cd sources2/Solar_S
 	cloc --version
-	cloc --by-file --xml --out=../../report/clock_result
+	cloc --by-file --xml --out=../../report/clock_result *
 	qmake --version
 	qmake "QMAKE_CXXFLAGS+=-fprofile-arcs -ftest-coverage -fPIC -O0 -g --coverage" "LIBS+=-lgcov"
 	if [ -e "Makefile" ]; then
