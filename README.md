@@ -27,4 +27,4 @@
 ![alt text](https://github.com/AleksandraOrova/SolarSystem/blob/master/report/Diagrams/ComponentDiagram1.jpg)
 
 ## Диаграмма последовательностей для интерфейса
-![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/SequenceDiagram1.jpg)
+![alt text](https://github.com/AleksandraOrova/SolarSystem/blob/master/report/Diagrams/SequenceDiagram1.jpg)
