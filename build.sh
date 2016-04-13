@@ -75,7 +75,7 @@ zip_files() {
 	TITLE="${JOB_NAME}${BUILD_NUMBER}"
 	mkdir "$TITLE"
 
-	if [ -e "sources2/_Solar_S/App/App" ]; then
+	if [ -e "sources2/Solar_S/App/App" ]; then
 		cp sources2/Solar_S/App/App $TITLE/App${BUILD_NUMBER}
 		if [ -e "report/latex/refman.pdf" ]; then
 			cp report/latex/refman.pdf $TITLE/refmanDoxygen${BUILD_NUMBER}.pdf
