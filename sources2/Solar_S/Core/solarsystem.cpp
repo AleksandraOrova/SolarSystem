@@ -19,9 +19,16 @@ void SolarSystem::addPlanet(Planet* planet, int id){
     planets[id] = planet;
 }
 
-/*int SolarSystem::planetsCount(){
-    return planetsCount;
-}*/
+/*
+void SolarSystem::movePlanet()
+while t < seconds:
+    rate(50);
+    for plan in range(len(planets)):
+        planetsf[plan].pos = rotate(planetsf[plan].pos,angle=planets[plan].varAngularPosition(t,dt.s),axis=(0,0,1));
+    v = rotate(v,angle=moon.varAngularPosition(t,dt.s,m2=2),axis=(0,0,1));
+    mo.pos = ea.pos + v;
+    t += dt.s;
+*/
 
 ostream& operator << (ostream& out, const SolarSystem& solarSystem){
     if (&solarSystem==NULL){
