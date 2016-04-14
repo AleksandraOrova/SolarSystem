@@ -3,7 +3,7 @@
 export PATH=$PATH:/opt/Qt5.5.0/5.5/gcc_64/bin/
 
 build_release_version() {
-	cd sources/Pro_Solar_System
+	cd sources2/Solar_S
 	qmake --version
 	qmake
 	if [ -e "Makefile" ]; then
@@ -18,22 +18,22 @@ build_release_version() {
 }
 
 build_debug_version() {
-	cd sources/Pro_Solar_System
+	cd sources2/Solar_S
 	cloc --version
-	cloc --by-file --xml --out=../../report/clock_result
+	cloc --by-file --xml --out=../../report/cloc_result *
 	qmake --version
 	qmake "QMAKE_CXXFLAGS+=-fprofile-arcs -ftest-coverage -fPIC -O0 -g --coverage" "LIBS+=-lgcov"
 	if [ -e "Makefile" ]; then
 		make --version
 		make
-		#Test/tst_testcore -xml -o test_results || true
+		Test/tst_testcore -xml -o ../../report/test_results || true 
 		cppcheck --version
 		cppcheck --enable=all -v  --xml  * 2> ../../report/cppcheck_result
 		gcovr --version
 		gcovr -r . --xml --exclude='tst*' -o ../../report/gcovr_result
 		
 		valgrind --version
-	#	valgrind --leak-check=full --xml=yes --xml-file=/opt/tomcat/.jenkins/jobs/Solar System/workspace/tst_testcore.%p.result /opt/tomcat/.jenkins/jobs/Solar System/workspace/sources/Pro_Solar_System/Test/tst_testcore || true
+		valgrind --leak-check=full --xml=yes --xml-file=/opt/tomcat/.jenkins/jobs/SolarSystem/workspace/report/tst_testtest.%p.result /opt/tomcat/.jenkins/jobs/SolarSystem/workspace/sources2/Solar_S/Test/tst_testtest || true
 
 		cd ../..
 	else
@@ -75,8 +75,8 @@ zip_files() {
 	TITLE="${JOB_NAME}${BUILD_NUMBER}"
 	mkdir "$TITLE"
 
-	if [ -e "sources/Pro_SOlar_System/App/App" ]; then
-		cp sources/Pro_SOlar_System/App/App $TITLE/sources/Pro_SOlar_System/App/App${BUILD_NUMBER}
+	if [ -e "sources2/Solar_S/App/App" ]; then
+		cp sources2/Solar_S/App/App $TITLE/App${BUILD_NUMBER}
 		if [ -e "report/latex/refman.pdf" ]; then
 			cp report/latex/refman.pdf $TITLE/refmanDoxygen${BUILD_NUMBER}.pdf
 		fi
