@@ -12,7 +12,7 @@ build_release_version() {
 	else
 		echo "Makefile does not exist"
 		echo "Build release version failure!"
-		exit 1
+		return 1
 	fi
 	cd ../..
 }
@@ -39,7 +39,7 @@ build_debug_version() {
 	else
 		echo "Makefile does not exist"
 		echo "Build debug version failure!"
-		exit 1
+		return 1
 	fi
 }
 
@@ -61,7 +61,7 @@ make_report() {
 		echo "Makefile does not exist"
 		echo "Report failure!"
 		cd ../..
-		exit 1
+		return 1
 	fi
 }
 
@@ -69,7 +69,7 @@ zip_files() {
 	if [ -z ${JOB_NAME} ] || [ -z ${BUILD_NUMBER}]; then
 		echo "Vars JOB_NAME/BUILD_NUMBER are unset"
 		echo "Zip failure!"
-		exit 1
+		return 1
 	fi
 
 	TITLE="${JOB_NAME}${BUILD_NUMBER}"
@@ -85,7 +85,7 @@ zip_files() {
 	else
 		echo "ConsoleApp does not exist"
 		echo "Zip failure!"
-		exit 1
+		return 1
 	fi
 
 }
