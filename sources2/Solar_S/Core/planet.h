@@ -12,24 +12,25 @@ using namespace std;
 
 class Planet
 {
-    const float G = 6.67 * pow(10,-11);
-    const float sunM = 1.989 * pow(10,30);
-    const float eaM = 5.973 * pow(10,24);
-    const float RTL = 384400000;
+    const double G = 6.67 * pow(10,-11);
+    const double sunM = 1.989 * pow(10,30);
+    const double eaM = 5.973 * pow(10,24);
+    const double RTL = 384400000;
     string name;
-    float RS;
-    float theta;
-    float radius;
-    float mass;
+    double RS;
+    double theta;
+    double radius;
+    double mass;
 public:
     Planet(); // конструктор по умолчанию
-    Planet(string name, float mass, float RS, float radius, float theta); // конструктор с параметрами
-    float gravitationalForce() const;
-    float angularVelocity()const;
-    float velocity() const;
-    float angularPosition(float t) const;
-    float varAngularPosition(float t, float dt) const;
+    Planet(string name, double mass, double RS, double radius, double theta); // конструктор с параметрами
+    double gravitationalForce() const;
+    double angularVelocity()const;
+    double velocity() const;
+    double angularPosition(double t) const; //TODO: удалить
+    double varAngularPosition(double t, double dt) const;//TODO: удалить
     TimeHoursSeconds periodAroundSun() const;
+    void step(double delta);
 
 
     friend ostream& operator << (ostream& out, const Planet& planet); // перегрузка оператора вывода в поток

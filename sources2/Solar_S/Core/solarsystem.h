@@ -15,9 +15,9 @@ private:
 public:
     SolarSystem(); // конструктор по умолчанию
     SolarSystem(int count); // конструктор с параметром
-    void step(float delta); // метод, который обновляет время жизни планеты, прибовляя к возрасту каждой константу (течение времени)
+    void step(double delta); // метод, который обновляет время жизни планеты, прибовляя к возрасту каждой константу (течение времени)
     void addPlanet(Planet* planet, int id); // добавляет планету в солнечную систему
-    void movePlanet();
+
 
     friend ostream& operator << (ostream& out, const SolarSystem& solarSystem); //перегрузка оператора вывода в поток
 };

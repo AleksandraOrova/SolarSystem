@@ -5,18 +5,18 @@
 class TimeHoursSeconds
 {
 private:
-    float second;
-    float hour;
-    float day;
-    float year;
+    double second;
+    double hour;
+    double day;
+    double year;
 public:
-    TimeHoursSeconds(float s, float h, float d, float y);
-    float fromStoHours();
-    float fromStoDays();
-    float fromStoYears();
-    float fromDaysToH();
-    float fromDaysToS();
-    float fromDaysToY();
+    TimeHoursSeconds(double s, double h, double d, double y);
+    double fromStoHours();
+    double fromStoDays();
+    double fromStoYears();
+    double fromDaysToH();
+    double fromDaysToS();
+    double fromDaysToY();
 };
 
 #endif // TIMEHOURSSECONDS_H

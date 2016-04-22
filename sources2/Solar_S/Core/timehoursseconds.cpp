@@ -1,27 +1,27 @@
 #include "timehoursseconds.h"
 
-TimeHoursSeconds::TimeHoursSeconds(float s, float h, float d, float y): second(s), hour(h), day(d), year(y){}
+TimeHoursSeconds::TimeHoursSeconds(double s, double h, double d, double y): second(s), hour(h), day(d), year(y){}
 
-float TimeHoursSeconds::fromStoHours(){
+double TimeHoursSeconds::fromStoHours(){
     return (second/60/60);
 }
 
-float TimeHoursSeconds::fromStoDays(){
+double TimeHoursSeconds::fromStoDays(){
     return (second/60/60/24);
 }
 
-float TimeHoursSeconds::fromStoYears(){
+double TimeHoursSeconds::fromStoYears(){
     return (second/60/60/24/365);
 }
 
-float TimeHoursSeconds::fromDaysToH(){
+double TimeHoursSeconds::fromDaysToH(){
     return (day*24);
 }
 
-float TimeHoursSeconds::fromDaysToS(){
+double TimeHoursSeconds::fromDaysToS(){
     return (day*24*60*60);
 }
 
-float TimeHoursSeconds::fromDaysToY(){
+double TimeHoursSeconds::fromDaysToY(){
     return (day/365);
 }

@@ -18,8 +18,6 @@ private Q_SLOTS:
     void fromDaysToY();
 };
 
-// TimeHoursSeconds::TimeHoursSeconds(float s, float h, float d, float y): second(s), hour(h), day(d), year(y){}
-
 TestTest::TestTest(){
 }
 
