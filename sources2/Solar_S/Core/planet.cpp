@@ -28,10 +28,10 @@ ostream& operator << (ostream& out, const Planet& planet)
     return out;
 }
 
-double Planet::gravitationalForce() const
-{
+double Planet::gravitationalForce() const{
     return (G * (mass*sunM)/pow(RS,2));
 }
+
 double Planet::angularVelocity() const
 {
     return sqrt(gravitationalForce()/(mass*RS));

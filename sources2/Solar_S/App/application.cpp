@@ -23,6 +23,7 @@ void Application::run()
     int choice;
     while((choice = getChoice()) != 0)
         processChoice(choice);
+    printMainMenu();
 
 }
 
@@ -31,7 +32,6 @@ void Application::printMainMenu()
     cout << "Симулятор звездной системы" << endl
          << "1. Показать состояние системы" << endl
          << "2. Сдвинуть планеты в системе" << endl
-         << "3. " << endl
          << "0. Exit" << endl
          << ">>> ";
 }
@@ -57,12 +57,14 @@ void Application::processChoice(int choice)
         break;
     case 1:
         cout << *system << "\n";
+        printMainMenu();
         break;
     case 2:
         int tmp;
         cout << "Введите дельту времени ";
         cin >> tmp;
         system->step((double)tmp);
+        printMainMenu();
         break;
     default:
         cout << "Error! Invalid number." << endl;
