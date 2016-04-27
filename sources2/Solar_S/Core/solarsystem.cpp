@@ -28,9 +28,9 @@ ostream& operator << (ostream& out, const SolarSystem& solarSystem){
         out << "NULL";
         return out;
     }
-    out << "{\n";
+    out << "\n";
     for(int i = 0; i<solarSystem.planetsCount; i++)
         out << "\t" << *solarSystem.planets[i] << "\n";
-    out << "}";
+    //out << "}";
     return out;
 }
