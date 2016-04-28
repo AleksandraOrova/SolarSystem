@@ -20,6 +20,8 @@ public:
   int getChoice(); // обработка ввода с клавиатуры
   void processChoice(int choice); // обработка ввода, вывод команд в соответствии с меню
   void run(); // запуск бесконечной петли приложения
+  void printPlanets();
+  int getPlanet();
 };
 
 #endif // APPLICATION_H

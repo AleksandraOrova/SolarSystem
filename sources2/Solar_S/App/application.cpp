@@ -29,18 +29,72 @@ void Application::run()
 
 void Application::printMainMenu()
 {
-    cout << "Симулятор звездной системы" << endl
+    cout << "\n"
+            "Симулятор звездной системы" << endl
          << "1. Показать таблицу с данными по всей системе" << endl
-         << "2. Выбрать планету" << endl
-         << "3. Открыть таблицу для сравнения"
-         << "4. "
+         << "2. Сдвинуть на дельту по времени" << endl
+         << "3. Открыть таблицу для сравнения" << endl
+         << "4. Открыть таблицу со всеми данными"
          << "0. Exit" << endl
          << ">>> ";
 }
 
-void Application::planetMenu()
+void Application::printPlanets()
 {
+    cout << "\n"
+            "Список планет" << endl
+         << "1. Меркурий" << endl
+         << "2. Венера" << endl
+         << "3. Земля" << endl
+         << "4. Марс" << endl
+         << "5. Юпитер" << endl
+         << "6. Сатурн" << endl
+         << "7. Уран" << endl
+         << "8. Нептун" << endl
+         << ">>> ";
+}
 
+int Application::getPlanet(){
+    int planetChoise;
+    cin >> planetChoise;
+    return planetChoise;
+}
+
+/*void Application::planetInfo(int planetChoise){
+    switch (planetChoise)
+    {
+    case 1:
+        out << "Меркурий" << planet.name << endl;
+        out << "Масса: " << planet.mass << " кг" << endl;
+        out << "Расстояние до солнца " << planet.RS/1000 << " км" << endl;
+        out << "Угловая скорость " << planet.angularVelocity() << " рад/с" << endl;
+        out << "Период обращения вокруг солнца " << planet.periodAroundSun().fromStoYears() << " земной год/с" << endl;
+        out << "Текущий положение " << planet.theta << " рад" << endl;
+        break;
+    case 2:
+        int tmp;
+        cout << "Введите дельту времени ";
+        cin >> tmp;
+        system->step((double)tmp);
+        cout << tmp << "\n";
+        printMainMenu();
+        break;
+    case 3:
+
+        break;
+    case 4:
+        cout << *system << "\n";
+        printMainMenu();
+        break;
+    default:
+        cout << "Error! Invalid number." << endl;
+        printMainMenu();
+        break;
+    }
+}
+*/
+
+void Application::planetMenu(){
 }
 
 int Application::getChoice()
@@ -58,14 +112,21 @@ void Application::processChoice(int choice)
 
         break;
     case 1:
-        cout << *system << "\n";
-        printMainMenu();
+        printPlanets();
         break;
     case 2:
         int tmp;
         cout << "Введите дельту времени ";
         cin >> tmp;
         system->step((double)tmp);
+        cout << tmp << "\n";
+        printMainMenu();
+        break;
+    case 3:
+
+        break;
+    case 4:
+        cout << *system << "\n";
         printMainMenu();
         break;
     default:

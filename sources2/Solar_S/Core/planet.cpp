@@ -20,11 +20,11 @@ ostream& operator << (ostream& out, const Planet& planet)
         return out;
     }
     out << "Название планеты: " << planet.name << endl;
-    out << "Масса: " << planet.mass << " кг" << endl;
-    out << "Расстояние до солнца " << planet.RS/1000 << " км" << endl;
-    out << "Угловая скорость " << planet.angularVelocity() << " рад/с" << endl;
-    out << "Период обращения вокруг солнца " << planet.periodAroundSun().fromStoYears() << " земной год/с" << endl;
-    out << "Текущий положение " << planet.theta << " рад" << endl;
+    out << "Масса: \t" << planet.mass << " кг" << endl;
+    out << "Расстояние до солнца: \t\t\t " << planet.RS/1000 << " км" << endl;
+    out << "Угловая скорость: \t\t\t" << planet.angularVelocity() << " рад/с" << endl;
+    out << "Период обращения вокруг солнца: \t" << planet.periodAroundSun().fromStoYears() << " земной год/с" << endl;
+    out << "Текущий положение: \t\t\t" << planet.theta << " рад" << endl;
     return out;
 }
 
