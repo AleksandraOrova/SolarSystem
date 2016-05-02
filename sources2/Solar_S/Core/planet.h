@@ -34,6 +34,7 @@ public:
     void printStaticParameters (ostream& out);
     void printDynamicParameters (ostream& out);
     void printShortInfo (ostream& out);
+    void printDelta(ostream& out, int delta);
 
 
     friend ostream& operator << (ostream& out, const Planet& planet); // перегрузка оператора вывода в поток

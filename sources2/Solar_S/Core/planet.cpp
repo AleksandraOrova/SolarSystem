@@ -58,6 +58,13 @@ void Planet::printShortInfo (ostream& out){
          << periodAroundSun().fromStoYears() << "\t"
          << theta << endl;
 }
+void Planet::printDelta(ostream& out, int delta){
+    out << "Планета\tТекущее положение\tПосле сдвига\tвремя в секундах" << endl
+        << name << "\t\t" << theta << "\t\t";
+    step(delta);
+    out << theta << "\t" << delta;
+}
+
 
 ostream& operator << (ostream& out, const Planet& planet)
 {

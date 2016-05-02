@@ -25,7 +25,7 @@ void Application::run()
     printMainMenu();
     int choice;
     while((choice = getChoice()) != 0)
-        processChoice(choice);
+        processMainMenu(choice);
     printMainMenu();
 
 }
@@ -57,16 +57,40 @@ void Application::printPlanets()
          << ">>> ";
 }
 
-void Application::parameterType(){
+void Application::printPlanetMenu(){
     cout << "\n"
-            "Выберите тип параметров" << endl
-         << "1. Статические параметры" << endl
-         << "2. Динамические параметры" << endl
-         << "3. Все параметры" << endl;
+            "Выберите действие" << endl
+         << "1. Вывести статические параметры" << endl
+         << "2. Вывести динамические параметры" << endl
+         << "3. Вывести все параметры" << endl
+         << "4. Сдвинуть планету на дельту" << endl
+         << "0. Выход" << endl;
 }
 
-void Application::planetTableMenu(){
+void Application::printTableMenu(){
+    cout << "\n"
+            "Выберите операцию с таблицей" << endl
+         << "1. Добавить планету для сравнения" << endl
+         << "2. Убрать планету из таблицы" << endl
+         << "3. Ввести дельту по времени" << endl
+         << "4. Вывести таблицу" << endl
+         << "0. Exit" << endl;
+}
+
+void Application::printInfoTable(){
+    cout << "Планета    Масса   Расстояние  Период  Текущее положение\n";
+    cout << "--------------------------------------------------------\n";
+    for(int i = 0; i < 8; i++)
+        if (planetsTable[i]){
+            (*system->getPlanet(i + 1)).printShortInfo(cout);
+        }
+    cout << "--------------------------------------------------------\n";
+}
+
+void Application::processTableMenu(){
     int tmp;
+    for(int i = 0 ; i< 8; i++)
+        planetsTable[i] = false;
     printTableMenu();
     while((tmp = getChoice())!=0){
         switch(tmp){
@@ -92,10 +116,38 @@ void Application::planetTableMenu(){
             printInfoTable();
             break;
         default:
-            printTableMenu();
+            break;
+        }
+        printTableMenu();
+    }
+    printMainMenu();
+}
+
+void Application::processPlanetInfoMenu(int planetId){
+    int tmp;
+    printPlanetMenu();
+    while((tmp = getChoice())!=0){
+        switch(tmp){
+        case 1:
+            (*system->getPlanet(planetId)).printStaticParameters(cout);
+            break;
+        case 2:
+            (*system->getPlanet(planetId)).printDynamicParameters(cout);
+            break;
+        case 3:
+            cout << *system->getPlanet(planetId);
+            break;
+        case 4:
+            tmp = getDeltaTime();
+            (*system->getPlanet(planetId)).printDelta(cout, tmp);
+            break;
+        default:
+            printPlanetMenu();
             break;
         }
     }
+    printMainMenu();
+
 }
 
 int Application::getChoice()
@@ -105,46 +157,27 @@ int Application::getChoice()
     return userInput;
 }
 
-void Application::printInfoTable(){
-    cout << "Планета    Масса   Расстояние  Период  Текущее положение\n";
-    cout << "--------------------------------------------------------\n";
-    for(int i = 0; i < 8; i++)
-        if (planetsTable[i]){
-            (*system->getPlanet(i + 1)).printShortInfo(cout);
-        }
-    cout << "--------------------------------------------------------\n";
-}
-void Application::printTableMenu(){
-    cout << "\n"
-            "Выберите операцию с таблицей" << endl
-         << "1. Добавить планету для сравнения" << endl
-         << "2. Убрать планету из таблицы" << endl
-         << "3. Ввести дельту по времени" << endl
-         << "4. Вывести таблицу" << endl
-         << "0. Exit" << endl;
-}
 int Application::getDeltaTime(){
     int tmp, ttmp = 0;
     cout << "Введите дельту времени\n";
-    cout << "дни";
+    cout << "дни ";
     tmp = getChoice();
     ttmp = tmp;
-    cout << "часы";
+    cout << "часы ";
     tmp = getChoice();
     ttmp = 24*ttmp+tmp;
-    cout << "минуты";
+    cout << "минуты ";
     tmp = getChoice();
     ttmp = 60*ttmp+tmp;
-    cout << "секунды";
+    cout << "секунды ";
     tmp = getChoice();
     ttmp = 60*ttmp+tmp;
     return ttmp;
 }
 
-void Application::processChoice(int choice)
+void Application::processMainMenu(int choice)
 {
     int tmp;
-    int ttmp;
     switch (choice)
     {
     case 0:
@@ -154,16 +187,7 @@ void Application::processChoice(int choice)
         printPlanets();
         tmp = getChoice();
         if (system->idValid(tmp)){
-            parameterType();
-            ttmp = getChoice();
-            if (ttmp==1)
-                (*system->getPlanet(tmp)).printStaticParameters(cout);
-            else if (ttmp == 2)
-                (*system->getPlanet(tmp)).printDynamicParameters(cout);
-            else if (ttmp == 3)
-                cout << *system->getPlanet(tmp);
-            else
-                cout << "Некорректный параметр";
+            processPlanetInfoMenu(tmp);
         }
         else
             cout << "Некорректный номер планеты";
@@ -174,7 +198,7 @@ void Application::processChoice(int choice)
         printMainMenu();
         break;
     case 3:
-        planetTableMenu();
+        processTableMenu();
         break;
     case 4:
         cout << *system << "\n";

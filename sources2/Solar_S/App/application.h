@@ -16,15 +16,16 @@ public:
     /**
      * @brief Display main menu
      */
-  void planetTableMenu(); // пока пустой метод
   void printMainMenu(); // метод печатающий основное меню
   int getChoice(); // обработка ввода с клавиатуры
-  void processChoice(int choice); // обработка ввода, вывод команд в соответствии с меню
+  void processMainMenu(int choice); // обработка ввода, вывод команд в соответствии с меню
   void run(); // запуск бесконечной петли приложения
   void printPlanets();
-  void parameterType();
+  void printPlanetMenu();
   void printInfoTable();
   void printTableMenu();
+  void processTableMenu();
+  void processPlanetInfoMenu(int planetId);
   int getPlanet();
   int getDeltaTime();
 };
