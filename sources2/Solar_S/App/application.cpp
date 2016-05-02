@@ -35,9 +35,8 @@ void Application::printMainMenu()
     cout << "\n"
             "Симулятор звездной системы" << endl
          << "1. Вывести информацию о планете" << endl
-         << "2. Сдвинуть на дельту по времени" << endl
-         << "3. Открыть таблицу для сравнения" << endl
-         << "4. Открыть таблицу со всеми данными" << endl
+         << "2. Открыть таблицу для сравнения" << endl
+         << "3. Открыть таблицу со всеми данными" << endl
          << "0. Exit" << endl
          << ">>> ";
 }
@@ -130,16 +129,20 @@ void Application::processPlanetInfoMenu(int planetId){
         switch(tmp){
         case 1:
             (*system->getPlanet(planetId)).printStaticParameters(cout);
+            printPlanetMenu();
             break;
         case 2:
             (*system->getPlanet(planetId)).printDynamicParameters(cout);
+            printPlanetMenu();
             break;
         case 3:
             cout << *system->getPlanet(planetId);
+            printPlanetMenu();
             break;
         case 4:
             tmp = getDeltaTime();
             (*system->getPlanet(planetId)).printDelta(cout, tmp);
+            printPlanetMenu();
             break;
         default:
             printPlanetMenu();
@@ -193,14 +196,9 @@ void Application::processMainMenu(int choice)
             cout << "Некорректный номер планеты";
         break;
     case 2:
-        system->step((double)getDeltaTime());
-        //cout << tmp << "\n";
-        printMainMenu();
-        break;
-    case 3:
         processTableMenu();
         break;
-    case 4:
+    case 3:
         cout << *system << "\n";
         printMainMenu();
         break;
