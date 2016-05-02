@@ -31,6 +31,9 @@ public:
     double varAngularPosition(double t, double dt) const;//TODO: удалить
     TimeHoursSeconds periodAroundSun() const;
     void step(double delta);
+    void printStaticParameters (ostream& out);
+    void printDynamicParameters (ostream& out);
+    void printShortInfo (ostream& out);
 
 
     friend ostream& operator << (ostream& out, const Planet& planet); // перегрузка оператора вывода в поток
