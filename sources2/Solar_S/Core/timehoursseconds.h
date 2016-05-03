@@ -2,6 +2,10 @@
 #define TIMEHOURSSECONDS_H
 
 //TODO задокументировать Doxygen'ом
+//Название класса не полностью отражает его содержимое.
+//В нем же есть еще days и years.
+//Думаю, Time достаточно
+//TODO переименовать класс TimeHoursSeconds
 class TimeHoursSeconds
 {
 private:
