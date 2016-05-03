@@ -38,7 +38,7 @@ void Application::printMainMenu()
          << "1. Вывести информацию о планете" << endl
          << "2. Открыть таблицу для сравнения" << endl
          << "3. Открыть таблицу со всеми данными" << endl
-         << "0. Exit" << endl
+         << "0. Выход" << endl
          << ">>> ";
 }
 
@@ -206,7 +206,7 @@ void Application::processMainMenu(int choice)
         printMainMenu();
         break;
     default:
-        cout << "Error! Invalid number." << endl;
+        cout << "Ошибка ввода" << endl;
         printMainMenu();
         break;
     }

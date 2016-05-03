@@ -1,13 +1,13 @@
 #ifndef SOLARSYSTEM_H
 #define SOLARSYSTEM_H
 
+#include "simulator_api.h"
 #include "planet.h"
 #include <iostream>
 using namespace std;
 
 // класс, хранящий в себе массив планет Солнечной системы
-
-class SolarSystem
+class SolarSystem : public simulator_api
 {
 private:
     int planetsCount;

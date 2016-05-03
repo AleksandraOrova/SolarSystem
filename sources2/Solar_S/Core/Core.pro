@@ -9,4 +9,5 @@ SOURCES += \
 HEADERS += \
     planet.h \
     solarsystem.h \
-    timehoursseconds.h
+    timehoursseconds.h \
+    simulator_api.h
