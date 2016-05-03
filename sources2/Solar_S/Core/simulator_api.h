@@ -1,0 +1,4 @@
+#ifndef SIMULATOR_API_H
+#define SIMULATOR_API_H
+
+#endif // SIMULATOR_API_H

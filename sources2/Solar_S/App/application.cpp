@@ -9,9 +9,8 @@ Application::Application(){
     system->addPlanet(new Planet("Марс",     6.4185 * pow(10,23),  227943820000,      0.0933941,  0.45f, 0), 3);
     system->addPlanet(new Planet("Юпитер",   1.8986 * pow(10,27),  778547200000,       0.048775,  0.8f,  0), 4);
     system->addPlanet(new Planet("Сатурн",   5.6846 * pow(10,26), 1433449370000,    0.055723219,  0.7f,  0), 5);
-
-    system->addPlanet(new Planet("Уран",     8.6832 * pow(10,25), 2877000000000,    0.01671123, 0.6f,  0), 6);
-    system->addPlanet(new Planet("Нептун",   1.0243 * pow(10,26), 4503000000000,    0.01671123, 0.6f,  0), 7);
+    system->addPlanet(new Planet("Уран",     8.6832 * pow(10,25), 2876679082000,    0.044405586, 0.6f,  0), 6);
+    system->addPlanet(new Planet("Нептун",   1.0243 * pow(10,26), 4503443661000,    0.011214269, 0.6f,  0), 7);
     planetsTable = new bool[8];
     for(int i = 0; i < 8; i++)
         planetsTable[i] = false;
