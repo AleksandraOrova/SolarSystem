@@ -3,6 +3,7 @@
 
 #include "timehoursseconds.h"
 #include <iostream>
+#include <iomanip>
 #include <math.h>
 #include <float.h>
 
@@ -17,18 +18,23 @@ class Planet
     const double eaM = 5.973 * pow(10,24);
     const double RTL = 384400000;
     string name;
-    double RS;
+    double RS; //расстояние до солнца
     double theta;
     double radius;
+    double p; //параметры эллипса
+    double e; //параметры эллипса
+    double radiusA; //параметры эллипса
+    double radiusB; //параметры эллипса
     double mass;
 public:
     Planet(); // конструктор по умолчанию
-    Planet(string name, double mass, double RS, double radius, double theta); // конструктор с параметрами
+    Planet(string name, double mass, double radiusA, double e, double radius, double theta); // конструктор с параметрами
     double gravitationalForce() const;
     double angularVelocity()const;
     double velocity() const;
     double angularPosition(double t) const; //TODO: удалить
     double varAngularPosition(double t, double dt) const;//TODO: удалить
+    double sunDistance() const;
     TimeHoursSeconds periodAroundSun() const;
     void step(double delta);
     void printStaticParameters (ostream& out);

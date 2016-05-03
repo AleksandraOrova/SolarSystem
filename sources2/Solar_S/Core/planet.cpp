@@ -5,14 +5,17 @@ Planet::Planet()
 
 }
 
-Planet::Planet(string name, double mass, double RS, double radius, double theta)
-{
-    this->theta = theta;
+Planet::Planet(string name, double mass, double radiusA, double e, double radius, double theta){
+    this->RS = (radiusA+radiusB)/2;
     this->radius = radius;
-    this->RS = RS;
-    this->mass = mass;
     this->name = name;
+    this->mass = mass;
+    this->theta = theta;
+    this->radiusA = radiusA;
+    this->p = (1-pow(e,2))*radiusA;
+    this->e = e;
 }
+
 
 double Planet::gravitationalForce() const{
     return (G * (mass*sunM)/pow(RS,2));
@@ -48,21 +51,26 @@ void Planet::printStaticParameters (ostream& out){
 }
 
 void Planet::printDynamicParameters (ostream& out){
-    out << "Расстояние до солнца:           " << RS/1000 << " км" << endl;
-    out << "Текущий положение:              " << theta << " рад" << endl;
+    out << "Расстояние до солнца:           " << sunDistance() << " км" << endl;
+    out << "Текущий угол:                   " << theta << " рад" << endl;
 }
 void Planet::printShortInfo (ostream& out){
-    cout << name << "\t"
-         << mass << "\t"
-         << RS/1000 << "\t"
-         << periodAroundSun().fromStoYears() << "\t"
-         << theta << endl;
+    out << name << "     \t"
+        << mass << "\t"
+        << sunDistance() << "\t"
+        << periodAroundSun().fromStoYears() << "    \t"
+        << theta << "\t"
+        << endl;
 }
 void Planet::printDelta(ostream& out, int delta){
-    out << "Планета\tТекущее положение\tПосле сдвига\tВремя в секундах" << endl
+    out << "Планета\tТекущий угол\tПосле сдвига\tВремя в секундах" << endl
         << name << "\t\t" << theta << "\t\t";
     step(delta);
     out << theta << "\t" << delta;
+}
+double Planet::sunDistance() const
+{
+    return(p/(1-e*cos(theta)))/1000;
 }
 
 
@@ -74,9 +82,9 @@ ostream& operator << (ostream& out, const Planet& planet)
     }
     out << "Название планеты:               " << planet.name << endl;
     out << "Масса:                          " << planet.mass << " кг" << endl;
-    out << "Расстояние до солнца:           " << planet.RS/1000 << " км" << endl;
+    out << "Расстояние до солнца:           " << planet.sunDistance() << " км" << endl;
     out << "Угловая скорость:               " << planet.angularVelocity() << " рад/с" << endl;
     out << "Период обращения вокруг солнца: " << planet.periodAroundSun().fromStoYears() << " земной год/с" << endl;
-    out << "Текущий положение:              " << planet.theta << " рад" << endl;
+    out << "Текущий угол:                   " << planet.theta << " рад" << endl;
     return out;
 }

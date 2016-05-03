@@ -2,14 +2,16 @@
 
 Application::Application(){
     system = new SolarSystem(8);
-    system->addPlanet(new Planet("Меркурий", 3.302 * pow(10,23),  57910000000, 0.3f,  0), 0);
-    system->addPlanet(new Planet("Венера",   4.8685 * pow(10,24), 108200000000, 0.4f,  0), 1);
-    system->addPlanet(new Planet("Земля",    5.973  * pow(10,24), 149600000000, 0.5f,  0), 2);
-    system->addPlanet(new Planet("Марс",     6.4185 * pow(10,23), 227900000000, 0.45f, 0), 3);
-    system->addPlanet(new Planet("Юпитер",   1.8986 * pow(10,27), 778500000000, 0.8f,  0), 4);
-    system->addPlanet(new Planet("Сатурн",   5.6846 * pow(10,26), 1433000000000, 0.7f, 0), 5);
-    system->addPlanet(new Planet("Уран",     8.6832 * pow(10,25), 2877000000000, 0.6f, 0), 6);
-    system->addPlanet(new Planet("Нептун",   1.0243 * pow(10,26), 4503000000000, 0.6f, 0), 7);
+
+    system->addPlanet(new Planet("Меркурий", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 0);
+    system->addPlanet(new Planet("Венера",   4.8685 * pow(10,24),  108208930000,         0.0068,  0.4f,  0), 1);
+    system->addPlanet(new Planet("Земля",    5.973  * pow(10,24),  149598261000,     0.01671123,  0.5f,  0), 2);
+    system->addPlanet(new Planet("Марс",     6.4185 * pow(10,23),  227943820000,      0.0933941,  0.45f, 0), 3);
+    system->addPlanet(new Planet("Юпитер",   1.8986 * pow(10,27),  778547200000,       0.048775,  0.8f,  0), 4);
+    system->addPlanet(new Planet("Сатурн",   5.6846 * pow(10,26), 1433449370000,    0.055723219,  0.7f,  0), 5);
+
+    system->addPlanet(new Planet("Уран",     8.6832 * pow(10,25), 2877000000000,    0.01671123, 0.6f,  0), 6);
+    system->addPlanet(new Planet("Нептун",   1.0243 * pow(10,26), 4503000000000,    0.01671123, 0.6f,  0), 7);
     planetsTable = new bool[8];
     for(int i = 0; i < 8; i++)
         planetsTable[i] = false;
@@ -77,13 +79,13 @@ void Application::printTableMenu(){
 }
 
 void Application::printInfoTable(){
-    cout << "Планета    Масса   Расстояние  Период  Текущее положение\n";
-    cout << "--------------------------------------------------------\n";
+    cout << "Планета         Масса           Расстояние      Период          Текущий угол\n";
+    cout << "----------------------------------------------------------------------------\n";
     for(int i = 0; i < 8; i++)
         if (planetsTable[i]){
             (*system->getPlanet(i + 1)).printShortInfo(cout);
         }
-    cout << "--------------------------------------------------------\n";
+    cout << "----------------------------------------------------------------------------\n";
 }
 
 void Application::processTableMenu(){
@@ -110,6 +112,8 @@ void Application::processTableMenu(){
             for(int i = 0 ; i< 8; i++)
                 if (planetsTable[i])
                     (*system->getPlanet(i + 1)).step(tmp);
+            cout << "\n\tДЕЛЬТА " << tmp << " секунд" << endl;
+            printInfoTable();
             break;
         case 4:
             printInfoTable();
