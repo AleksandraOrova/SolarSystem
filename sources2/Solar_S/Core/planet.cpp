@@ -1,10 +1,13 @@
 #include "planet.h"
 
+//по идее, он генерируется самостоятельно
+//TODO удалить конструктор
 Planet::Planet()
 {
 
 }
 
+//TODO заменить тело конструктора списком инициализации
 Planet::Planet(string name, double mass, double radiusA, double e, double radius, double theta){
     this->RS = (radiusA+radiusB)/2;
     this->radius = radius;
@@ -29,14 +32,19 @@ double Planet::velocity() const
 {
     return (angularVelocity() * RS);
 }
+//а что ж не удалила?
 double Planet::angularPosition(double t) const//TODO: удалить
 {
     return (theta + angularVelocity() * t);
 }
+//а что ж не удалила?
 double Planet::varAngularPosition(double t, double dt) const//TODO: удалить
 {
     return (angularPosition(t+dt)-angularPosition(t));
 }
+
+//вижу 3.1415. Это же почти число пи. резонно создать константу с данным значением. код станет понятней
+//TODO добавить констату Pi
 TimeHoursSeconds Planet::periodAroundSun() const
 {
     return TimeHoursSeconds(2*3.1415/angularVelocity(),0,0,0);
@@ -44,6 +52,7 @@ TimeHoursSeconds Planet::periodAroundSun() const
 void Planet::step(double delta){
     theta += delta*angularVelocity();
 }
+
 void Planet::printStaticParameters (ostream& out){
     out << "Масса:                          " << mass << " кг" << endl;
     out << "Угловая скорость:               " << angularVelocity() << " рад/с" << endl;

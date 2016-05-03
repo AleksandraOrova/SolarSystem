@@ -1,8 +1,16 @@
 #include "application.h"
 
 Application::Application(){
+    //Объект system создается динамическе в куче с помощью new. И по всей видимости он нигде delete'ом не разрушается
+    //А это утечка памяти, что плохо
+    //TODO пофиксить утечку памяти
     system = new SolarSystem(8);
-
+    
+    //В методах ниже планеты создаются очень странным образом. Создаются с помощью new временные объекты для инициализации объекта.
+    //И они, эти временные объекты, не разрушаются с помощью delete. Более того, в такой ситуации нельзя нигде этот delete добавить,
+    //чтобы их разрушить. Утечки памяти
+    //В c++, в отличае от java нет сборщика мусора. Если есть new, то должно быть и delete. А в данном случае даже new быть не должно.
+    //TODO убрать new
     system->addPlanet(new Planet("Меркурий", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 0);
     system->addPlanet(new Planet("Венера",   4.8685 * pow(10,24),  108208930000,         0.0068,  0.4f,  0), 1);
     system->addPlanet(new Planet("Земля",    5.973  * pow(10,24),  149598261000,     0.01671123,  0.5f,  0), 2);
@@ -14,6 +22,7 @@ Application::Application(){
     planetsTable = new bool[8];
     for(int i = 0; i < 8; i++)
         planetsTable[i] = false;
+    //TODO удалить закоменченный кусок кода, если он не нужен. И доделать, если нужен.
     /*
     cout << system << "\n";
     system.step(4);
@@ -33,6 +42,7 @@ void Application::run()
 
 void Application::printMainMenu()
 {
+    //TODO в c++ используют std::endl вместо \n
     cout << "\n"
             "Симулятор звездной системы" << endl
          << "1. Вывести информацию о планете" << endl
@@ -88,6 +98,8 @@ void Application::printInfoTable(){
 }
 
 void Application::processTableMenu(){
+    //Нехорошее имя для переменной - tmp. Особенно в данном случае
+    //TODO переименовать tmp
     int tmp;
     for(int i = 0 ; i< 8; i++)
         planetsTable[i] = false;
@@ -111,6 +123,7 @@ void Application::processTableMenu(){
             for(int i = 0 ; i< 8; i++)
                 if (planetsTable[i])
                     (*system->getPlanet(i + 1)).step(tmp);
+                    //TODO в c++ взамен \t есть специальный метод форматирования текста для cout
             cout << "\n\tДЕЛЬТА " << tmp << " секунд" << endl;
             printInfoTable();
             break;
@@ -126,6 +139,7 @@ void Application::processTableMenu(){
 }
 
 void Application::processPlanetInfoMenu(int planetId){
+    //TODO переименовать tmp
     int tmp;
     printPlanetMenu();
     while((tmp = getChoice())!=0){
@@ -164,6 +178,7 @@ int Application::getChoice()
 }
 
 int Application::getDeltaTime(){
+    //TODO переименовать tmp, ttmp
     int tmp, ttmp = 0;
     cout << "Введите дельту времени\n";
     cout << "дни ";
@@ -183,6 +198,7 @@ int Application::getDeltaTime(){
 
 void Application::processMainMenu(int choice)
 {
+    //TODO переименовать tmp
     int tmp;
     switch (choice)
     {

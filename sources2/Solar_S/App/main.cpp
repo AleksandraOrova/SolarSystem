@@ -1,5 +1,6 @@
 #include<iostream>
 #include "application.h"
+//TODO убрать using namespace
 using namespace std;
 
 int main(){

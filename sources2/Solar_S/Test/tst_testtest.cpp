@@ -1,6 +1,9 @@
 #include <QString>
 #include <QtTest>
-
+/// Мало тестов.
+/// А те, что есть не доделаны
+/// В частности, нет тестов, которые показали бы, что есть большие утечки памяти
+//TODO добавить тестов
 #include "planet.h"
 #include "solarsystem.h"
 #include "timehoursseconds.h"
@@ -61,7 +64,7 @@ void TestTest::fromDaysToY(){
     TimeHoursSeconds tmp(0, 0, 730, 0); // 2 года = 730 дней
     QCOMPARE(tmp.fromDaysToY(), 2.0f);
 }
-
+//TODO доделать тесты
 //Planet::Planet(string name, double mass, double RS, double radius, double theta)
 /*
 double TestTest::gravitationalForce(){
