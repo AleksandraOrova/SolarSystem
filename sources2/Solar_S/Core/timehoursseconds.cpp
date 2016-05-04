@@ -1,27 +1,26 @@
 #include "timehoursseconds.h"
 
-TimeHoursSeconds::TimeHoursSeconds(double s, double h, double d, double y): second(s), hour(h), day(d), year(y){}
+Time::Time(double s, double h, double d, double y): second(s), hour(h), day(d), year(y){}
 
-double TimeHoursSeconds::fromStoHours(){
+double Time::fromSecondstoHours(){
     return (second/60/60);
 }
 
-double TimeHoursSeconds::fromStoDays(){
-    return (second/60/60/24);
+double Time::fromSecondstoDays(){
+    return (fromSecondstoHours()/24);
 }
 
-double TimeHoursSeconds::fromStoYears(){
-    return (second/60/60/24/365);
+double Time::fromSecondstoYears(){
+    return (fromSecondstoDays()/365);
 }
 
-double TimeHoursSeconds::fromDaysToH(){
+double Time::fromDaysToHours(){
     return (day*24);
 }
-
-double TimeHoursSeconds::fromDaysToS(){
-    return (day*24*60*60);
+double Time::fromDaysToSeconds(){
+    return (fromDaysToHours()*60*60);
 }
 
-double TimeHoursSeconds::fromDaysToY(){
+double Time::fromDaysToYears(){
     return (day/365);
 }

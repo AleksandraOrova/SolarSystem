@@ -7,18 +7,36 @@
 using namespace std;
 
 // класс, хранящий в себе массив планет Солнечной системы
+
 class SolarSystem : public simulator_api
+
 {
+
+public:
+//TODO добавить noexcept в функции, не генерирующие исключения
+//TODO добавить const к аргументам функций, где только возможно.
+
+    SolarSystem();
+    SolarSystem(int count);
+    void step(double delta);
+
+    //Лучше передать объект planet как ссылку на const Planet.
+    //TODO заменить передачу указателя на передачу ссылки на const.
+
+    void addPlanet(Planet* planet, int id);
+
+    //TODO добавить const
+    //В c++ появились ссылки, которых нет в с.
+    //В данном методе разумно будет возвращать ссылку на объект, а не указатель.
+    //TODO заменить указатель ссылкой
+
+    Planet* getPlanet(int id);
+
+    //TODO добавить const
+    bool idValid(int id);
 private:
     int planetsCount;
     Planet** planets;
-public:
-    SolarSystem(); // конструктор по умолчанию
-    SolarSystem(int count); // конструктор с параметром
-    void step(double delta); // метод, который обновляет время жизни планеты, прибовляя к возрасту каждой константу (течение времени)
-    void addPlanet(Planet* planet, int id); // добавляет планету в солнечную систему
-    Planet* getPlanet(int id);
-    bool idValid(int id);
 
 
     friend ostream& operator << (ostream& out, const SolarSystem& solarSystem); //перегрузка оператора вывода в поток

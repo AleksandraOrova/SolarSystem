@@ -1,8 +1,10 @@
 #include "application.h"
 
 Application::Application(){
-    system = new SolarSystem(8);
 
+    //TODO пофиксить утечку памяти
+    system = new SolarSystem(8);
+    //TODO убрать new
     system->addPlanet(new Planet("Меркурий", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 0);
     system->addPlanet(new Planet("Венера",   4.8685 * pow(10,24),  108208930000,         0.0068,  0.4f,  0), 1);
     system->addPlanet(new Planet("Земля",    5.973  * pow(10,24),  149598261000,     0.01671123,  0.5f,  0), 2);
@@ -14,11 +16,6 @@ Application::Application(){
     planetsTable = new bool[8];
     for(int i = 0; i < 8; i++)
         planetsTable[i] = false;
-    /*
-    cout << system << "\n";
-    system.step(4);
-    cout << system << "\n";
-    */
 }
 
 void Application::run()
@@ -33,8 +30,8 @@ void Application::run()
 
 void Application::printMainMenu()
 {
-    cout << "\n"
-            "Симулятор звездной системы" << endl
+    std::cout << std::endl;
+    std::cout << "Симулятор звездной системы" << endl
          << "1. Вывести информацию о планете" << endl
          << "2. Открыть таблицу для сравнения" << endl
          << "3. Открыть таблицу со всеми данными" << endl
@@ -44,8 +41,8 @@ void Application::printMainMenu()
 
 void Application::printPlanets()
 {
-    cout << "\n"
-            "Выберите планету" << endl
+    std::cout << std::endl;
+    std::cout << "Выберите планету" << endl
          << "1. Меркурий" << endl
          << "2. Венера" << endl
          << "3. Земля" << endl
@@ -58,8 +55,8 @@ void Application::printPlanets()
 }
 
 void Application::printPlanetMenu(){
-    cout << "\n"
-            "Выберите действие" << endl
+    std::cout << std::endl;
+    std::cout << "Выберите действие" << endl
          << "1. Вывести статические параметры" << endl
          << "2. Вывести динамические параметры" << endl
          << "3. Вывести все параметры" << endl
@@ -68,8 +65,8 @@ void Application::printPlanetMenu(){
 }
 
 void Application::printTableMenu(){
-    cout << "\n"
-            "Выберите операцию с таблицей" << endl
+    std::cout << std::endl;
+    std::cout <<"Выберите операцию с таблицей" << endl
          << "1. Добавить планету для сравнения" << endl
          << "2. Убрать планету из таблицы" << endl
          << "3. Ввести дельту по времени" << endl
@@ -78,40 +75,41 @@ void Application::printTableMenu(){
 }
 
 void Application::printInfoTable(){
-    cout << "Планета         Масса           Расстояние      Период          Текущий угол\n";
-    cout << "----------------------------------------------------------------------------\n";
+    std::cout << "Планета         Масса           Расстояние      Период          Текущий угол\n";
+    std::cout << "----------------------------------------------------------------------------\n";
     for(int i = 0; i < 8; i++)
         if (planetsTable[i]){
             (*system->getPlanet(i + 1)).printShortInfo(cout);
         }
-    cout << "----------------------------------------------------------------------------\n";
+    std::cout << "----------------------------------------------------------------------------\n";
 }
 
 void Application::processTableMenu(){
-    int tmp;
+    //TODO переименовать tmp
+    int tableChoice;
     for(int i = 0 ; i< 8; i++)
         planetsTable[i] = false;
     printTableMenu();
-    while((tmp = getChoice())!=0){
-        switch(tmp){
+    while((tableChoice = getChoice())!=0){
+        switch(tableChoice){
         case 1:
             printPlanets();
-            tmp = getChoice();
-            if(system->idValid(tmp))
-                planetsTable[tmp-1] = true;
+            tableChoice = getChoice();
+            if(system->idValid(tableChoice))
+                planetsTable[tableChoice-1] = true;
             break;
         case 2:
             printPlanets();
-            tmp = getChoice();
-            if(system->idValid(tmp))
-                planetsTable[tmp-1] = false;
+            tableChoice = getChoice();
+            if(system->idValid(tableChoice))
+                planetsTable[tableChoice-1] = false;
             break;
         case 3:
-            tmp = getDeltaTime();
+            tableChoice = getDeltaTime();
             for(int i = 0 ; i< 8; i++)
                 if (planetsTable[i])
-                    (*system->getPlanet(i + 1)).step(tmp);
-            cout << "\n\tДЕЛЬТА " << tmp << " секунд" << endl;
+                    (*system->getPlanet(i + 1)).step(tableChoice);
+            std::cout << "\n\tДЕЛЬТА " << tableChoice << " секунд" << endl;
             printInfoTable();
             break;
         case 4:
@@ -126,10 +124,10 @@ void Application::processTableMenu(){
 }
 
 void Application::processPlanetInfoMenu(int planetId){
-    int tmp;
+    int paremeterChoice;
     printPlanetMenu();
-    while((tmp = getChoice())!=0){
-        switch(tmp){
+    while((paremeterChoice = getChoice())!=0){
+        switch(paremeterChoice){
         case 1:
             (*system->getPlanet(planetId)).printStaticParameters(cout);
             printPlanetMenu();
@@ -143,8 +141,8 @@ void Application::processPlanetInfoMenu(int planetId){
             printPlanetMenu();
             break;
         case 4:
-            tmp = getDeltaTime();
-            (*system->getPlanet(planetId)).printDelta(cout, tmp);
+            paremeterChoice = getDeltaTime();
+            (*system->getPlanet(planetId)).printDelta(cout, paremeterChoice);
             printPlanetMenu();
             break;
         default:
@@ -156,34 +154,33 @@ void Application::processPlanetInfoMenu(int planetId){
 
 }
 
-int Application::getChoice()
-{
+int Application::getChoice(){
     int userInput;
     cin >> userInput;
     return userInput;
 }
 
 int Application::getDeltaTime(){
-    int tmp, ttmp = 0;
+    int preDelTime, delta = 0;
     cout << "Введите дельту времени\n";
     cout << "дни ";
-    tmp = getChoice();
-    ttmp = tmp;
+    preDelTime = getChoice();
+    delta = preDelTime;
     cout << "часы ";
-    tmp = getChoice();
-    ttmp = 24*ttmp+tmp;
+    preDelTime = getChoice();
+    delta = 24*delta+preDelTime;
     cout << "минуты ";
-    tmp = getChoice();
-    ttmp = 60*ttmp+tmp;
+    preDelTime = getChoice();
+    delta = 60*delta+preDelTime;
     cout << "секунды ";
-    tmp = getChoice();
-    ttmp = 60*ttmp+tmp;
-    return ttmp;
+    preDelTime = getChoice();
+    delta = 60*delta+preDelTime;
+    return delta;
 }
 
 void Application::processMainMenu(int choice)
 {
-    int tmp;
+    int menuChoice;
     switch (choice)
     {
     case 0:
@@ -191,22 +188,22 @@ void Application::processMainMenu(int choice)
         break;
     case 1:
         printPlanets();
-        tmp = getChoice();
-        if (system->idValid(tmp)){
-            processPlanetInfoMenu(tmp);
+        menuChoice = getChoice();
+        if (system->idValid(menuChoice)){
+            processPlanetInfoMenu(menuChoice);
         }
         else
-            cout << "Некорректный номер планеты";
+            std::cout << "Некорректный номер планеты";
         break;
     case 2:
         processTableMenu();
         break;
     case 3:
-        cout << *system << "\n";
+        std::cout << *system << "\n";
         printMainMenu();
         break;
     default:
-        cout << "Ошибка ввода" << endl;
+        std::cout << "Ошибка ввода" << endl;
         printMainMenu();
         break;
     }
