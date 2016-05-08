@@ -29,6 +29,7 @@ class Planet
     double radiusB; //параметры эллипса
     double mass;
 public:
+
     //TODO добавить noexcept для всех функций, не генерирующих исключений
 
     Planet();

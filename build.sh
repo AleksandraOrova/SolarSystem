@@ -35,12 +35,18 @@ build_debug_version() {
 		valgrind --version
 		valgrind --leak-check=full --xml=yes --xml-file=/opt/tomcat/.jenkins/jobs/SolarSystem/workspace/report/tst_testtest.%p.result /opt/tomcat/.jenkins/jobs/SolarSystem/workspace/sources2/Solar_S/Test/tst_testtest || true
 
-		cd ../..
+   		# cd ../..  вот это
 	else
 		echo "Makefile does not exist"
 		echo "Build debug version failure!"
+<<<<<<< HEAD
 		return 1
+=======
+		exit 1 #return 1 будет лучше
+>>>>>>> review
 	fi
+
+	cd ../..  # вот сюда
 }
 
 make_report() {

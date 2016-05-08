@@ -65,6 +65,11 @@ public:
      * @brief getDeltaTime
      * @return
      */
+    void Application::viewMenu();
+    /**
+     * @brief getDeltaTime
+     * @return
+     */
     int getDeltaTime();
 private:
     SolarSystem* system;

@@ -39,6 +39,16 @@ void Application::printMainMenu()
          << ">>> ";
 }
 
+void Application::viewMenu()
+{
+    std::cout << std::endl;
+    std::cout << "Выберите вид" << endl
+         << "1. Солнечная система" << endl
+         << "2. Земля - Луна" << endl
+         << "3. Юпитер и спутники" << endl
+         << ">>> ";
+}
+
 void Application::printPlanets()
 {
     std::cout << std::endl;
@@ -62,6 +72,7 @@ void Application::printPlanetMenu(){
          << "3. Вывести все параметры" << endl
          << "4. Сдвинуть планету на дельту" << endl
          << "0. Выход" << endl;
+    std::cout << std::endl;
 }
 
 void Application::printTableMenu(){
@@ -72,6 +83,7 @@ void Application::printTableMenu(){
          << "3. Ввести дельту по времени" << endl
          << "4. Вывести таблицу" << endl
          << "0. Exit" << endl;
+    std::cout << std::endl;
 }
 
 void Application::printInfoTable(){
@@ -82,10 +94,10 @@ void Application::printInfoTable(){
             (*system->getPlanet(i + 1)).printShortInfo(cout);
         }
     std::cout << "----------------------------------------------------------------------------\n";
+    std::cout << std::endl;
 }
 
 void Application::processTableMenu(){
-    //TODO переименовать tmp
     int tableChoice;
     for(int i = 0 ; i< 8; i++)
         planetsTable[i] = false;
@@ -151,7 +163,6 @@ void Application::processPlanetInfoMenu(int planetId){
         }
     }
     printMainMenu();
-
 }
 
 int Application::getChoice(){
