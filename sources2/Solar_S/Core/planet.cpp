@@ -4,7 +4,13 @@ Planet::Planet(){
 
 }
 
-Planet::Planet(const string& name, const double mass, const double radiusA, const double e, const double radius, const double theta){
+Planet::Planet(const string& name,
+               const double mass,
+               const double radiusA,
+               const double e,
+               const double radius,
+               const double theta)
+{
     this->LenghtToSun = (radiusA+radiusB)/2;
     this->radius = radius;
     this->name = name;
@@ -14,7 +20,9 @@ Planet::Planet(const string& name, const double mass, const double radiusA, cons
     this->p = (1-pow(e,2))*radiusA;
     this->e = e;
 }
-Planet::Planet(Planet& planet){
+
+Planet::Planet(Planet& planet)
+{
     this->name = planet.name;
     this->LenghtToSun = planet.LenghtToSun;
     this->theta = planet.theta;
@@ -26,8 +34,8 @@ Planet::Planet(Planet& planet){
     this->mass = planet.mass;
 }
 
-
-double Planet::gravitationalForce() const{
+double Planet::gravitationalForce() const
+{
     return (G * (mass*SunMass)/pow(LenghtToSun,2));
 }
 
@@ -35,6 +43,7 @@ double Planet::angularVelocity() const
 {
     return sqrt(gravitationalForce()/(mass*LenghtToSun));
 }
+
 double Planet::velocity() const
 {
     return (angularVelocity() * LenghtToSun);
@@ -44,6 +53,7 @@ Time Planet::periodAroundSun() const
 {
     return Time(2*Pi/angularVelocity(),0,0,0);
 }
+
 void Planet::step(const double delta)
 {
     theta += delta*angularVelocity();
@@ -61,6 +71,7 @@ void Planet::printDynamicParameters (ostream& out) const
     out << "Расстояние до солнца:           " << sunDistance() << " км" << endl;
     out << "Текущий угол:                   " << theta << " рад" << endl;
 }
+
 void Planet::printShortInfo (ostream& out) const
 {
     out << name << "     \t"
@@ -70,6 +81,7 @@ void Planet::printShortInfo (ostream& out) const
         << theta << "\t"
         << endl;
 }
+
 void Planet::printDelta(ostream& out, const int delta)
 {
     out << "Планета\tТекущий угол\tПосле сдвига\tВремя в секундах" << endl
@@ -77,11 +89,11 @@ void Planet::printDelta(ostream& out, const int delta)
     step(delta);
     out << theta << "\t" << delta;
 }
+
 double Planet::sunDistance() const
 {
     return(p/(1-e*cos(theta)))/1000;
 }
-
 
 ostream& operator << (ostream& out, const Planet& planet)
 {

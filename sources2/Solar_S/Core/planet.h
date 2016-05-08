@@ -9,8 +9,10 @@ using namespace std;
 #include <math.h>
 #include <float.h>
 
-// класс, содеражищий в себе информацию о планете и методы, отвечающие за ее движение
-// является родителем класса каждой планеты солнечной системы
+/**
+ * @brief класс, содеражищий в себе информацию о планете и методы, отвечающие за ее движение
+ * является родителем класса каждой планеты солнечной системы
+ */
 
 class Planet
 {
@@ -30,69 +32,64 @@ class Planet
     double mass;
 public:
 
-    //TODO добавить noexcept для всех функций, не генерирующих исключений
-
     Planet();
     Planet(Planet& planet);
 
-    //TODO переименовть переменные
-    //передавать string по значению неэффективно. лучше по ссылке на константный объект.
-
-    //TODO заменить передачу string name по значению передачей по ссылке на константу.
-    //если аргументы функции не будут изменяться внутри функции, то есть не переданы по ссылке, то лучше передавать их как const.
-
-    //пользовательские типы и std контейнеры - как ссылку на конст. а встроенные int и т.д - const значение
-    //TODO добавить const к аргументам функций, где только возможно.
-
     Planet(const string& name, const double mass, const double radiusA, const double e, const double radius, const double theta);
     /**
-     * @brief gravitationalForce
-     * @return
+     * @brief Вычисление силы тяжести на планете
      */
     double gravitationalForce() const;
+
     /**
-     * @brief angularVelocity
+     * @brief Вывод угловой скорости движения планеты
      * @return
      */
     double angularVelocity() const;
+
     /**
-     * @brief velocity
+     * @brief Вывод линейной скорости движения планеты
      * @return
      */
     double velocity() const;
+
     /**
-     * @brief sunDistance
+     * @brief Вывод расстояния от планеты до Солнца
      * @return
      */
     double sunDistance() const;
+
     /**
-     * @brief periodAroundSun
-     * @return
+     * @brief Вывод периода обращения вокруг Солнца
      */
     Time periodAroundSun() const;
 
-    //Все функции снизу ответственны за взаимодействие с пользователем. В ядре им НЕ МЕСТО!!!
-    //По фаулеру надо move method.
-    //TODO переместить функции взаимодействия с пользователем из ядра в приложение
-
-    void step(const double delta);
     /**
-     * @brief printStaticParameters
+     * @brief Сдвиг планеты на дельту по времени
+     * @param delta
+     */
+    void step(const double delta);
+
+    /**
+     * @brief Вывод статических параметров планеты
      * @param out
      */
     void printStaticParameters (ostream& out) const;
+
     /**
-     * @brief printDynamicParameters
+     * @brief Вывод динамических параметров планеты
      * @param out
      */
     void printDynamicParameters (ostream& out) const;
+
     /**
-     * @brief printShortInfo
+     * @brief Вывод информации о планете в строчку
      * @param out
      */
     void printShortInfo (ostream& out) const;
+
     /**
-     * @brief printDelta
+     * @brief Вывод состояния планеты через дельту времени
      * @param out
      * @param delta
      */

@@ -5,76 +5,88 @@
 #include "solarsystem.h"
 #include <cmath>
 
+/**
+ * @brief Класс для работы консольного приложения
+ */
+
 class Application
 {
-    //TODO const
-    //TODO noexcept
 
 public:
-    Application();
+
     /**
-     * @brief Display main menu
+     * @brief Конструктор по умолчанию
+     */
+    Application();
+
+    /**
+     * @brief Печать главного меню
      *
      */
     void printMainMenu();
+
     /**
-     * @brief getChoice
+     * @brief Считывание выбора пользователя
      * @return
      */
     int getChoice();
+
     /**
-     * @brief processMainMenu
+     * @brief Обработка главного меню
      * @param choice
      */
     void processMainMenu(int choice);
+
     /**
-     * @brief run
+     * @brief Запуск работы консольного приложения
      */
     void run();
+
     /**
-     * @brief printPlanets
+     * @brief Вывод списка планет
      */
     void printPlanets();
+
     /**
-     * @brief printPlanetMenu
+     * @brief Печать меню работы с планетой
      */
     void printPlanetMenu();
+
     /**
-     * @brief printInfoTable
+     * @brief Печать информации о планетах
      */
     void printInfoTable();
+
     /**
-     * @brief printTableMenu
+     * @brief Печать таблицы сравнения планет
      */
     void printTableMenu();
+
     /**
-     * @brief processTableMenu
+     * @brief Запуск меню для работы с таблицей сравнения планет
      */
     void processTableMenu();
+
     /**
-     * @brief processPlanetInfoMenu
+     * @brief Запуск работы меню с информацией о планете
      * @param planetId
      */
     void processPlanetInfoMenu(int planetId);
+
     /**
-     * @brief getPlanet
-     * @return
-     */
-    int getPlanet();
-    /**
-     * @brief getDeltaTime
-     * @return
-     */
-    void viewMenu();
-    /**
-     * @brief getDeltaTime
+     * @brief Считать дельту по времени с клавиатуры
      * @return
      */
     int getDeltaTime();
 private:
-    SolarSystem* system;
+
     /**
-     * @brief planetsTable
+     * @brief Солнечная система
+     */
+    SolarSystem* system;
+
+    /**
+     * @brief Массив флагов планет для вывода в сравнении
      */
     bool* planetsTable;
 };

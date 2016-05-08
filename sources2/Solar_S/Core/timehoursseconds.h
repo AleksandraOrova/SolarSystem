@@ -4,41 +4,40 @@
 /**
  * @brief Класс, для хранения времени и перевода в разные единицы
  */
-
 class Time
 {
 public:
     Time(const double seconds, const double hours, const double days, const double years);
 
-    double fromSecondstoHours() const noexcept;
     /**
      * @brief Переводит величину времени из секунд в часы
      */
+    double fromSecondstoHours() const noexcept;
 
-    double fromSecondstoDays() const noexcept;
     /**
      * @brief Переводит величину времени из секунд в дни
      */
+    double fromSecondstoDays() const noexcept;
 
-    double fromSecondstoYears() const noexcept;
     /**
      * @brief Переводит величину времени из секунд в года
      */
+    double fromSecondstoYears() const noexcept;
 
-    double fromDaysToHours() const noexcept;
     /**
      * @brief Переводит величину времени из дней в часы
      */
+    double fromDaysToHours() const noexcept;
 
-    double fromDaysToSeconds() const noexcept;
     /**
      * @brief Переводит величину времени из дней в секунды
      */
+    double fromDaysToSeconds() const noexcept;
 
-    double fromDaysToYears() const noexcept;
     /**
      * @brief Переводит величину времени из дней в года
      */
+    double fromDaysToYears() const noexcept;
 
 private:
 
