@@ -1,8 +1,6 @@
 #include "application.h"
 
 Application::Application(){
-
-    //TODO пофиксить утечку памяти
     system = new SolarSystem(8);
     system->addPlanet(Planet("Меркурий", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 0);
     system->addPlanet(Planet("Венера",   4.8685 * pow(10,24),  108208930000,         0.0068,  0.4f,  0), 1);
@@ -35,16 +33,6 @@ void Application::printMainMenu()
          << "2. Открыть таблицу для сравнения" << endl
          << "3. Открыть таблицу со всеми данными" << endl
          << "0. Выход" << endl
-         << ">>> ";
-}
-
-void Application::viewMenu()
-{
-    std::cout << std::endl;
-    std::cout << "Выберите вид" << endl
-         << "1. Солнечная система" << endl
-         << "2. Земля - Луна" << endl
-         << "3. Юпитер и спутники" << endl
          << ">>> ";
 }
 
