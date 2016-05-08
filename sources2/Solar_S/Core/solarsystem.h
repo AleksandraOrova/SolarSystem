@@ -23,21 +23,20 @@ public:
     //Лучше передать объект planet как ссылку на const Planet.
     //TODO заменить передачу указателя на передачу ссылки на const.
 
-    void addPlanet(Planet* planet, int id);
+    void addPlanet(const Planet& planet, int id);
 
     //TODO добавить const
     //В c++ появились ссылки, которых нет в с.
     //В данном методе разумно будет возвращать ссылку на объект, а не указатель.
     //TODO заменить указатель ссылкой
 
-    Planet* getPlanet(int id);
+    Planet& getPlanet(int id);
 
     //TODO добавить const
     bool idValid(int id);
 private:
     int planetsCount;
-    Planet** planets;
-
+    Planet* planets;
 
     friend ostream& operator << (ostream& out, const SolarSystem& solarSystem); //перегрузка оператора вывода в поток
 };

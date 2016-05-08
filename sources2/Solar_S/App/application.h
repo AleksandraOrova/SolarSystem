@@ -65,7 +65,7 @@ public:
      * @brief getDeltaTime
      * @return
      */
-    void Application::viewMenu();
+    void viewMenu();
     /**
      * @brief getDeltaTime
      * @return

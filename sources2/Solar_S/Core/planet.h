@@ -14,11 +14,11 @@ using namespace std;
 
 class Planet
 {
-    const double G = 6.67 * pow(10,-11);
-    const double SunMass = 1.989 * pow(10,30);
-    const double EarthMass = 5.973 * pow(10,24);
-    const double LenghtFromEarthToMoon = 384400000;
-    const double Pi = 3.1415;
+    constexpr static double G = 6.67 * pow(10,-11) ;
+    constexpr static double SunMass = 1.989 * pow(10,30);
+    constexpr static double EarthMass = 5.973 * pow(10,24);
+    constexpr static double LenghtFromEarthToMoon = 384400000;
+    constexpr static double Pi = 3.1415;
     string name;
     double LenghtToSun;
     double theta;
@@ -33,6 +33,7 @@ public:
     //TODO добавить noexcept для всех функций, не генерирующих исключений
 
     Planet();
+    Planet(Planet& planet);
 
     //TODO переименовть переменные
     //передавать string по значению неэффективно. лучше по ссылке на константный объект.
@@ -43,7 +44,7 @@ public:
     //пользовательские типы и std контейнеры - как ссылку на конст. а встроенные int и т.д - const значение
     //TODO добавить const к аргументам функций, где только возможно.
 
-    Planet(string name, double mass, double radiusA, double e, double radius, double theta);
+    Planet(const string& name, const double mass, const double radiusA, const double e, const double radius, const double theta);
     /**
      * @brief gravitationalForce
      * @return
@@ -53,7 +54,7 @@ public:
      * @brief angularVelocity
      * @return
      */
-    double angularVelocity()const;
+    double angularVelocity() const;
     /**
      * @brief velocity
      * @return
@@ -74,28 +75,28 @@ public:
     //По фаулеру надо move method.
     //TODO переместить функции взаимодействия с пользователем из ядра в приложение
 
-    void step(double delta);
+    void step(const double delta);
     /**
      * @brief printStaticParameters
      * @param out
      */
-    void printStaticParameters (ostream& out);
+    void printStaticParameters (ostream& out) const;
     /**
      * @brief printDynamicParameters
      * @param out
      */
-    void printDynamicParameters (ostream& out);
+    void printDynamicParameters (ostream& out) const;
     /**
      * @brief printShortInfo
      * @param out
      */
-    void printShortInfo (ostream& out);
+    void printShortInfo (ostream& out) const;
     /**
      * @brief printDelta
      * @param out
      * @param delta
      */
-    void printDelta(ostream& out, int delta);
+    void printDelta(ostream& out, const int delta);
 
 
     friend ostream& operator << (ostream& out, const Planet& planet); // перегрузка оператора вывода в поток

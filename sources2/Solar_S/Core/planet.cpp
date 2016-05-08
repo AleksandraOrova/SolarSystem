@@ -1,6 +1,10 @@
 #include "planet.h"
 
-Planet::Planet(string name, double mass, double radiusA, double e, double radius, double theta){
+Planet::Planet(){
+
+}
+
+Planet::Planet(const string& name, const double mass, const double radiusA, const double e, const double radius, const double theta){
     this->LenghtToSun = (radiusA+radiusB)/2;
     this->radius = radius;
     this->name = name;
@@ -9,6 +13,17 @@ Planet::Planet(string name, double mass, double radiusA, double e, double radius
     this->radiusA = radiusA;
     this->p = (1-pow(e,2))*radiusA;
     this->e = e;
+}
+Planet::Planet(Planet& planet){
+    this->name = planet.name;
+    this->LenghtToSun = planet.LenghtToSun;
+    this->theta = planet.theta;
+    this->radius = planet.radius;
+    this->p = planet.p;
+    this->e = planet.e;
+    this->radiusA = planet.radiusA;
+    this->radiusB = planet.radiusB;
+    this->mass = planet.mass;
 }
 
 
@@ -29,21 +44,25 @@ Time Planet::periodAroundSun() const
 {
     return Time(2*Pi/angularVelocity(),0,0,0);
 }
-void Planet::step(double delta){
+void Planet::step(const double delta)
+{
     theta += delta*angularVelocity();
 }
 
-void Planet::printStaticParameters (ostream& out){
+void Planet::printStaticParameters (ostream& out) const
+{
     out << "Масса:                          " << mass << " кг" << endl;
     out << "Угловая скорость:               " << angularVelocity() << " рад/с" << endl;
     out << "Период обращения вокруг солнца: " << periodAroundSun().fromSecondstoYears() << " земной год/с" << endl;
 }
 
-void Planet::printDynamicParameters (ostream& out){
+void Planet::printDynamicParameters (ostream& out) const
+{
     out << "Расстояние до солнца:           " << sunDistance() << " км" << endl;
     out << "Текущий угол:                   " << theta << " рад" << endl;
 }
-void Planet::printShortInfo (ostream& out){
+void Planet::printShortInfo (ostream& out) const
+{
     out << name << "     \t"
         << mass << "\t"
         << sunDistance() << "\t"
@@ -51,7 +70,8 @@ void Planet::printShortInfo (ostream& out){
         << theta << "\t"
         << endl;
 }
-void Planet::printDelta(ostream& out, int delta){
+void Planet::printDelta(ostream& out, const int delta)
+{
     out << "Планета\tТекущий угол\tПосле сдвига\tВремя в секундах" << endl
         << name << "\t\t" << theta << "\t\t";
     step(delta);

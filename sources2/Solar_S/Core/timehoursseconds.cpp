@@ -1,26 +1,26 @@
 #include "timehoursseconds.h"
 
-Time::Time(double s, double h, double d, double y): second(s), hour(h), day(d), year(y){}
+Time::Time(const double s, const double h, const double d, const double y): second(s), hour(h), day(d), year(y){}
 
-double Time::fromSecondstoHours(){
+double Time::fromSecondstoHours() const noexcept{
     return (second/60/60);
 }
 
-double Time::fromSecondstoDays(){
+double Time::fromSecondstoDays() const noexcept{
     return (fromSecondstoHours()/24);
 }
 
-double Time::fromSecondstoYears(){
+double Time::fromSecondstoYears() const noexcept{
     return (fromSecondstoDays()/365);
 }
 
-double Time::fromDaysToHours(){
+double Time::fromDaysToHours() const noexcept{
     return (day*24);
 }
-double Time::fromDaysToSeconds(){
+double Time::fromDaysToSeconds() const noexcept{
     return (fromDaysToHours()*60*60);
 }
 
-double Time::fromDaysToYears(){
+double Time::fromDaysToYears() const noexcept{
     return (day/365);
 }

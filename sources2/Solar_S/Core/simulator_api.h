@@ -11,19 +11,19 @@ public:
      * @param planet
      * @param id
      */
-    virtual void addPlanet(Planet* planet, int id) = 0;
+    virtual void addPlanet(const Planet& planet, int id) = 0;
     /**
      * @brief getPlanet
      * @param id
      * @return
      */
-    virtual Planet* getPlanet(int id) = 0;
+    virtual Planet& getPlanet(int id) = 0;
     /**
      * @brief idValid
      * @param id
      * @return
      */
     virtual bool idValid(int id) = 0;
-    };
+};
 
 #endif // SIMULATOR_API_H

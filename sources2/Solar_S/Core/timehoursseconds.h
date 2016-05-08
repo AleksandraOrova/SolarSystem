@@ -1,52 +1,44 @@
 #ifndef TIMEHOURSSECONDS_H
 #define TIMEHOURSSECONDS_H
 
+/**
+ * @brief Класс, для хранения времени и перевода в разные единицы
+ */
+
 class Time
 {
 public:
+    Time(const double seconds, const double hours, const double days, const double years);
 
-//Когда функция не генерирует исключений, классно приписывать модификатор noexcept.
-//почему это классно, объясняется в Мейерс "Эффективный и современный c++ 11 и 14"
-
-//TODO добавить noexcept ко всем функциям, которые не генерируют исключений.
-
-//TODO добавить const к аргументам функций, где только возможно.
-
-    Time(double seconds, double hours, double days, double years);
-
-    //TODO добавить const ко всем функциям, которые не изменяют объект.
-
-    double fromSecondstoHours();
+    double fromSecondstoHours() const noexcept;
     /**
-     * @brief fromSecondstoDays
-     * @return
+     * @brief Переводит величину времени из секунд в часы
      */
 
-    double fromSecondstoDays();
+    double fromSecondstoDays() const noexcept;
     /**
-     * @brief fromSecondstoYears
-     * @return
+     * @brief Переводит величину времени из секунд в дни
      */
 
-    double fromSecondstoYears();
+    double fromSecondstoYears() const noexcept;
     /**
-     * @brief fromDaysToHours
-     * @return
+     * @brief Переводит величину времени из секунд в года
      */
 
-    double fromDaysToHours();
+    double fromDaysToHours() const noexcept;
     /**
-     * @brief fromDaysToSeconds
-     * @return
+     * @brief Переводит величину времени из дней в часы
      */
 
-    double fromDaysToSeconds();
+    double fromDaysToSeconds() const noexcept;
     /**
-     * @brief fromDaysToYears
-     * @return
+     * @brief Переводит величину времени из дней в секунды
      */
 
-    double fromDaysToYears();
+    double fromDaysToYears() const noexcept;
+    /**
+     * @brief Переводит величину времени из дней в года
+     */
 
 private:
 
