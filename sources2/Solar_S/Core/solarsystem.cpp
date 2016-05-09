@@ -10,23 +10,23 @@ SolarSystem::SolarSystem(int count){
     planets = new Planet[count];
 }
 
-void SolarSystem::addPlanet(const Planet& planet, int id) const noexcept{
+void SolarSystem::addPlanet(const Planet& planet, int id) const{
     if (id>=planetsCount)
         return;
     planets[id] = planet;
 }
 
-void SolarSystem::step(double delta) const noexcept{
+void SolarSystem::step(double delta) const{
     for(int i = 0; i <planetsCount; i++)
     {
         planets[i].step(delta);
     }
 }
-Planet& SolarSystem::getPlanet(int id) const noexcept{
+Planet& SolarSystem::getPlanet(int id) const{
     return planets[id-1];
 }
 
-bool SolarSystem::idValid(int id) const noexcept{
+bool SolarSystem::idValid(int id) const{
     return (id > 0 && id <=planetsCount);
 }
 

@@ -34,14 +34,14 @@ public:
      * @brief сдвиг
      * @param время для сдвига
      */
-    void step(double delta) const noexcept;
+    void step(double delta) const; // noexcept
 
     /**
      * @brief добавить планету в список
      * @param планета
      * @param номер планеты
      */
-    void addPlanet(const Planet& planet, int id) const noexcept;
+    void addPlanet(const Planet& planet, int id) const; // noexcept
 
     //TODO добавить const
     //В c++ появились ссылки, которых нет в с.
@@ -53,14 +53,14 @@ public:
      * @param id
      * @return
      */
-    Planet& getPlanet(int id) const noexcept;
+    Planet& getPlanet(int id) const;// noexcept
 
     /**
      * @brief Проверка на адекватность номера планеты
      * @param Номер планеты для проверки
      * @return
      */
-    bool idValid(int id) const noexcept;
+    bool idValid(int id) const; // noexcept
 private:
     /**
      * @brief Количество планет в системе

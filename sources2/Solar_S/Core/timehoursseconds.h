@@ -12,32 +12,32 @@ public:
     /**
      * @brief Переводит величину времени из секунд в часы
      */
-    double fromSecondstoHours() const noexcept;
+    double fromSecondstoHours() const; // noexcept
 
     /**
      * @brief Переводит величину времени из секунд в дни
      */
-    double fromSecondstoDays() const noexcept;
+    double fromSecondstoDays() const; // noexcept
 
     /**
      * @brief Переводит величину времени из секунд в года
      */
-    double fromSecondstoYears() const noexcept;
+    double fromSecondstoYears() const; // noexcept
 
     /**
      * @brief Переводит величину времени из дней в часы
      */
-    double fromDaysToHours() const noexcept;
+    double fromDaysToHours() const; // noexcept
 
     /**
      * @brief Переводит величину времени из дней в секунды
      */
-    double fromDaysToSeconds() const noexcept;
+    double fromDaysToSeconds() const; // noexcept
 
     /**
      * @brief Переводит величину времени из дней в года
      */
-    double fromDaysToYears() const noexcept;
+    double fromDaysToYears() const; // noexcept
 
 private:
 
