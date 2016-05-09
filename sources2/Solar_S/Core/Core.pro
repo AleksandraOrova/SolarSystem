@@ -1,13 +1,16 @@
 TEMPLATE = lib
-CONFIG += staticlib
+CONFIG += staticlib c++11
 
 SOURCES += \
     planet.cpp \
     solarsystem.cpp \
-    timehoursseconds.cpp
+    timehoursseconds.cpp \
+    jupitermoons.cpp \
+    main.cpp
 
 HEADERS += \
     planet.h \
     solarsystem.h \
     timehoursseconds.h \
-    simulator_api.h
+    simulator_api.h \
+    jupitermoons.h
