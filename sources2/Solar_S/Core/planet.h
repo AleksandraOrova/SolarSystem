@@ -1,6 +1,7 @@
 #ifndef PLANET_H
 #define PLANET_H
 
+// todo убрать это
 using namespace std;
 
 #include "timehoursseconds.h"
@@ -10,14 +11,16 @@ using namespace std;
 #include <float.h>
 
 /**
- * @brief класс, содеражищий в себе информацию о планете и методы, отвечающие за ее движение
+ * @brief класс, содержащий в себе информацию о планете и методы, отвечающие за ее движение
  * является родителем класса каждой планеты солнечной системы
  */
 
 class Planet
 {
+    // todo вроде, надо писать static constexpr
     constexpr static double G = 6.67 * pow(10,-11) ;
     constexpr static double SunMass = 1.989 * pow(10,30);
+    // todo зачем две следующие константы? они совсем нигде не используются
     constexpr static double EarthMass = 5.973 * pow(10,24);
     constexpr static double LenghtFromEarthToMoon = 384400000;
     constexpr static double Pi = 3.1415;
@@ -36,11 +39,14 @@ public:
     Planet(Planet& planet);
 
     Planet(const string& name, const double mass, const double radiusA, const double e, const double radius, const double theta);
+
     /**
      * @brief Вычисление силы тяжести на планете
      */
     double gravitationalForce() const;
 
+    // todo методы ничего не выводят, как написано в комментариях к ним. Они возвращают.
+    // Исправьте комментарии и дополните в них @return, где необходимо
     /**
      * @brief Вывод угловой скорости движения планеты
      * @return
@@ -51,6 +57,7 @@ public:
      * @brief Вывод линейной скорости движения планеты
      * @return
      */
+    // todo возможно, стоит добавить в название метода, что скорость линейная: linearVelocity()
     double velocity() const;
 
     /**
@@ -64,6 +71,7 @@ public:
      */
     Time periodAroundSun() const;
 
+    // todo а из этих комментариев не понятно, что за параметр
     /**
      * @brief Сдвиг планеты на дельту по времени
      * @param delta

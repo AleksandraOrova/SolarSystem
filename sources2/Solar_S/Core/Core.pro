@@ -4,7 +4,8 @@ CONFIG += staticlib c++11
 SOURCES += \
     planet.cpp \
     solarsystem.cpp \
-    timehoursseconds.cpp
+    timehoursseconds.cpp \
+    main.cpp
 
 HEADERS += \
     planet.h \

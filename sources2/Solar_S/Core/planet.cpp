@@ -1,9 +1,10 @@
 #include "planet.h"
 
+// todo можно сделать такой конструктор inline и убрать это отсюда
 Planet::Planet(){
 
 }
-
+// todo использовать список инициализации
 Planet::Planet(const string& name,
                const double mass,
                const double radiusA,
@@ -34,6 +35,8 @@ Planet::Planet(Planet& planet)
     this->mass = planet.mass;
 }
 
+// todo следующие пять методов (и метод sunDistance) можно сделать inline (вынести в .h файл), если хотите
+// а вообще, это норм выносить методы в одну строчку прямо в header. У вас много таких
 double Planet::gravitationalForce() const
 {
     return (G * (mass*SunMass)/pow(LenghtToSun,2));

@@ -4,6 +4,8 @@
 #include "solarsystem.h"
 #include "timehoursseconds.h"
 
+// todo нужно больше тестов. Тестируется всего один класс.
+// todo еще нужны функциональные тесты. Для них можно сделать отдельный проект.
 class TestTest : public QObject
 {
     Q_OBJECT

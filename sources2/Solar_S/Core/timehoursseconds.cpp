@@ -1,5 +1,7 @@
 #include "timehoursseconds.h"
 
+// а здесь вы все-таки используйте список инициализаци...
+// todo сделать все методы inline и удалить файл
 Time::Time(const double s, const double h, const double d, const double y): second(s), hour(h), day(d), year(y){}
 
 double Time::fromSecondstoHours() const{
@@ -17,6 +19,7 @@ double Time::fromSecondstoYears() const{
 double Time::fromDaysToHours() const{
     return (day*24);
 }
+
 double Time::fromDaysToSeconds() const{
     return (fromDaysToHours()*60*60);
 }
