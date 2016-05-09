@@ -5,12 +5,10 @@ SOURCES += \
     planet.cpp \
     solarsystem.cpp \
     timehoursseconds.cpp \
-    jupitermoons.cpp \
     main.cpp
 
 HEADERS += \
     planet.h \
     solarsystem.h \
     timehoursseconds.h \
-    simulator_api.h \
-    jupitermoons.h
+    simulator_api.h

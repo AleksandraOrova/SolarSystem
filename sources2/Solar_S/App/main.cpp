@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include "application.h"
 
 int main(){

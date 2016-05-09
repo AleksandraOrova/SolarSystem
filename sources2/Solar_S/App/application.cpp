@@ -1,6 +1,8 @@
 #include "application.h"
 
 Application::Application(){
+    // todo выделять память динамически - это хорошо, но еще лучше ее в конце очищать.
+    // Добавьте, пожалуйста, деструктор
     system = new SolarSystem(8);
     system->addPlanet(Planet("Меркурий", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 0);
     system->addPlanet(Planet("Венера",   4.8685 * pow(10,24),  108208930000,         0.0068,  0.4f,  0), 1);
@@ -10,6 +12,8 @@ Application::Application(){
     system->addPlanet(Planet("Сатурн",   5.6846 * pow(10,26), 1433449370000,    0.055723219,  0.7f,  0), 5);
     system->addPlanet(Planet("Уран",     8.6832 * pow(10,25), 2876679082000,    0.044405586, 0.6f,  0), 6);
     system->addPlanet(Planet("Нептун",   1.0243 * pow(10,26), 4503443661000,    0.011214269, 0.6f,  0), 7);
+    // был совет от Мэйерса "Избегайте вектор bool". Видимо, поэтому вы используйте массив.
+    // todo В таком случае, очистите его, пожалуйста, в конце работы
     planetsTable = new bool[8];
     for(int i = 0; i < 8; i++)
         planetsTable[i] = false;
@@ -19,8 +23,20 @@ void Application::run()
 {
     printMainMenu();
     int choice;
+    // todo даже если в цикле одна строчка, отделяйте ее, пожалуйста, фигурными скобкам:
+    // while (....) {
+    // ....
+    // }
     while((choice = getChoice()) != 0)
         processMainMenu(choice);
+
+    // todo Это можно добавить в цикл и не писать отдельно в конце каждого метода
+    // while (...) {
+    //   printMainMenu();
+    //   processMainMenu(choice);
+    // }
+    // Но при этом убрать первую строчку в методе. Вроде бы должно работать...
+    // Кажется, что вы писали printMainMenu(); везде, где его не хватало.
     printMainMenu();
 
 }
@@ -28,6 +44,7 @@ void Application::run()
 void Application::printMainMenu()
 {
     std::cout << std::endl;
+    // todo endl --> std::endl;
     std::cout << "Симулятор звездной системы" << endl
          << "1. Вывести информацию о планете" << endl
          << "2. Открыть таблицу для сравнения" << endl
@@ -86,7 +103,7 @@ void Application::printInfoTable(){
 
 void Application::processTableMenu(){
     int tableChoice;
-    for(int i = 0 ; i< 8; i++)
+    for(int i = 0 ; i < 8; i++)
         planetsTable[i] = false;
     printTableMenu();
     while((tableChoice = getChoice())!=0){
@@ -105,7 +122,7 @@ void Application::processTableMenu(){
             break;
         case 3:
             tableChoice = getDeltaTime();
-            for(int i = 0 ; i< 8; i++)
+            for(int i = 0 ; i < 8; i++)
                 if (planetsTable[i])
                     (system->getPlanet(i + 1)).step(tableChoice);
             std::cout << "\n\tДЕЛЬТА " << tableChoice << " секунд" << endl;
@@ -119,6 +136,9 @@ void Application::processTableMenu(){
         }
         printTableMenu();
     }
+    // todo зачем писать это в конце каждого метода?
+    // Логичнее дописать printMainMenu(); в цикл в методе run(), мы же все равно туда вернемся, пока там ноль не получим
+    // и далее убрать эти строки из методов.
     printMainMenu();
 }
 
@@ -152,13 +172,20 @@ void Application::processPlanetInfoMenu(int planetId){
     printMainMenu();
 }
 
+// todo кажется, если я введу не число, а строку, будет плохо... Пусть этот метод занимается обработкой ввода
 int Application::getChoice(){
     int userInput;
+    // todo в предыдущих методах везде написано std:: , а здесь уже нет.
+    // Пишите везде и уберите, пожалуйста, using namespace std;
     cin >> userInput;
     return userInput;
 }
 
 int Application::getDeltaTime(){
+    // todo почему здесь инициализируется только одна переменная?
+    // наверно, лучше написать это в двух строках:
+    // int preDelTime = 0;
+    // int delta = 0;
     int preDelTime, delta = 0;
     cout << "Введите дельту времени\n";
     cout << "дни ";
@@ -166,13 +193,13 @@ int Application::getDeltaTime(){
     delta = preDelTime;
     cout << "часы ";
     preDelTime = getChoice();
-    delta = 24*delta+preDelTime;
+    delta = 24 * delta + preDelTime;
     cout << "минуты ";
     preDelTime = getChoice();
-    delta = 60*delta+preDelTime;
+    delta = 60 * delta + preDelTime;
     cout << "секунды ";
     preDelTime = getChoice();
-    delta = 60*delta+preDelTime;
+    delta = 60 * delta + preDelTime;
     return delta;
 }
 
@@ -193,6 +220,8 @@ void Application::processMainMenu(int choice)
         else
             std::cout << "Некорректный номер планеты";
         break;
+        // todo если здесь мы считали некорректный номер, например 10,
+        // то приложение начинает вести себя немного неадекватно.
     case 2:
         processTableMenu();
         break;
