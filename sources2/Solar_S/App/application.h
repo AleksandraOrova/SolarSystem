@@ -20,6 +20,11 @@ public:
     Application();
 
     /**
+     * @brief Деструктор по умолчанию
+     */
+    ~Application();
+
+    /**
      * @brief Печать главного меню
      *
      */
@@ -35,7 +40,7 @@ public:
      * @brief Обработка главного меню
      * @param choice
      */
-    void processMainMenu(int choice);
+    void processMainMenu();
 
     /**
      * @brief Запуск работы консольного приложения
