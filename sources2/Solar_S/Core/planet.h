@@ -1,8 +1,6 @@
 #ifndef PLANET_H
 #define PLANET_H
 
-// todo убрать это
-using namespace std;
 
 #include "timehoursseconds.h"
 #include <iostream>
@@ -17,94 +15,92 @@ using namespace std;
 
 class Planet
 {
-    // todo вроде, надо писать static constexpr
-    constexpr static double G = 6.67 * pow(10,-11) ;
-    constexpr static double SunMass = 1.989 * pow(10,30);
-    // todo зачем две следующие константы? они совсем нигде не используются
-    constexpr static double EarthMass = 5.973 * pow(10,24);
-    constexpr static double LenghtFromEarthToMoon = 384400000;
-    constexpr static double Pi = 3.1415;
-    string name;
+    static constexpr double G = 6.67 * pow(10,-11) ;
+    static constexpr double SunMass = 1.989 * pow(10,30);
+    static constexpr double Pi = 3.1415;
+    std::string name;
     double LenghtToSun;
     double theta;
     double radius;
     double p; //параметры эллипса
     double e; //параметры эллипса
     double radiusA; //параметры эллипса
-    double radiusB; //параметры эллипса
     double mass;
 public:
 
-    Planet();
+    Planet(){}
+
     Planet(Planet& planet);
 
-    Planet(const string& name, const double mass, const double radiusA, const double e, const double radius, const double theta);
+    Planet(const std::string& name, const double mass, const double radiusA, const double e, const double radius, const double theta);
 
     /**
-     * @brief Вычисление силы тяжести на планете
+     * @brief Возвращает силу тяжести на планете
      */
-    double gravitationalForce() const;
-
-    // todo методы ничего не выводят, как написано в комментариях к ним. Они возвращают.
-    // Исправьте комментарии и дополните в них @return, где необходимо
-    /**
-     * @brief Вывод угловой скорости движения планеты
-     * @return
-     */
-    double angularVelocity() const;
+    double gravitationalForce() const{ return (G * (mass*SunMass)/pow(LenghtToSun,2)); }
 
     /**
-     * @brief Вывод линейной скорости движения планеты
-     * @return
+     * @brief Возвращает угловую скорость движения планеты
      */
-    // todo возможно, стоит добавить в название метода, что скорость линейная: linearVelocity()
-    double velocity() const;
+    double angularVelocity() const { return sqrt(gravitationalForce()/(mass*LenghtToSun)); }
 
     /**
-     * @brief Вывод расстояния от планеты до Солнца
-     * @return
+     * @brief Возвращает линейную скорость движения планеты
      */
-    double sunDistance() const;
+
+    double linearVelocity() const { return (angularVelocity() * LenghtToSun); }
+    /**
+     * @brief Возвращает расстояние от планеты до Солнца
+     */
+    double sunDistance() const { return(p/(1-e*cos(theta)))/1000; }
 
     /**
-     * @brief Вывод периода обращения вокруг Солнца
+     * @brief Возвращает период обращения вокруг Солнца
      */
-    Time periodAroundSun() const;
+    Time periodAroundSun() const { return Time(2*Pi/angularVelocity(),0,0,0); }
 
-    // todo а из этих комментариев не понятно, что за параметр
     /**
      * @brief Сдвиг планеты на дельту по времени
-     * @param delta
+     * @param delta время, на которое нужно сдвинуть планету
      */
-    void step(const double delta);
+    void step(const double delta) { theta += delta*angularVelocity(); }
 
     /**
      * @brief Вывод статических параметров планеты
-     * @param out
+     * @param out поток для вывода
      */
-    void printStaticParameters (ostream& out) const;
+    void printStaticParameters (std::ostream& out) const;
 
     /**
      * @brief Вывод динамических параметров планеты
-     * @param out
+     * @param out поток для вывода
      */
-    void printDynamicParameters (ostream& out) const;
+    void printDynamicParameters (std::ostream& out) const;
 
     /**
      * @brief Вывод информации о планете в строчку
-     * @param out
+     * @param out поток для вывода
      */
-    void printShortInfo (ostream& out) const;
+    void printShortInfo (std::ostream& out) const;
 
     /**
      * @brief Вывод состояния планеты через дельту времени
-     * @param out
-     * @param delta
+     * @param out поток для вывода
+     * @param delta прошедшее время
      */
-    void printDelta(ostream& out, const int delta);
+    void printDelta(std::ostream& out, const int delta);
+
+    /**
+     * @brief Устанавливает время движения планеты
+     * @param time время в секундах прошедшее с начала движения планеты
+     */
+    void setLifeTime(double time){theta = time*angularVelocity();}
 
 
-    friend ostream& operator << (ostream& out, const Planet& planet); // перегрузка оператора вывода в поток
+    /**
+     * @brief Перегрузка оператора вывода в поток
+     */
+    friend std::ostream& operator << (std::ostream& out, const Planet& planet);
 };
 
 #endif // PLANET_H
