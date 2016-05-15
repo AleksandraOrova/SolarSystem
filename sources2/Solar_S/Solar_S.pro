@@ -7,4 +7,6 @@ Test.depends = Core
 SUBDIRS += \
     App \
     Core \
-    Test
+    Test \
+    GUII
+

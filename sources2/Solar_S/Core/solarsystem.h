@@ -32,7 +32,7 @@ public:
 
     void step(double delta) const noexcept override final;
 
-    void addPlanet(const Planet& planet, int id) const noexcept override final;
+    void addPlanet(const Planet& planet, int id) const noexcept override;
 
     Planet& getPlanet(int id) const noexcept override final;
 

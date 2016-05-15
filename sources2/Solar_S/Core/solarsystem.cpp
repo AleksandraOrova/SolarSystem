@@ -16,12 +16,13 @@ void SolarSystem::step(double delta) const noexcept{
         planets[i].step(delta);
     }
 }
+
 Planet& SolarSystem::getPlanet(int id) const noexcept{
     return planets[id - 1];
 }
 
 bool SolarSystem::idValid(int id) const noexcept{
-    return (id > 0 && id <= planetsCount);
+    return (id >= 0 && id <= planetsCount);
 }
 
 std::ostream& operator << (std::ostream& out, const SolarSystem& solarSystem){
