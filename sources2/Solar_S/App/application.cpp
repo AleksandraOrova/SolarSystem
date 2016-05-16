@@ -17,23 +17,23 @@ Application::Application(){
 
     juperos = new Juperos(16);
 
-    //                          название      масса                 больший радиус эксцентриситет радиус начальное положение
-    juperos->addPlanet(Planet("1 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 0);
-    juperos->addPlanet(Planet("2 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 1);
-    juperos->addPlanet(Planet("3 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 2);
-    juperos->addPlanet(Planet("4 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 3);
-    juperos->addPlanet(Planet("5 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 4);
-    juperos->addPlanet(Planet("6 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 5);
-    juperos->addPlanet(Planet("7 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 6);
-    juperos->addPlanet(Planet("8 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 7);
-    juperos->addPlanet(Planet("9 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 8);
-    juperos->addPlanet(Planet("10 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 9);
-    juperos->addPlanet(Planet("11 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 10);
-    juperos->addPlanet(Planet("12 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 11);
-    juperos->addPlanet(Planet("13 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 12);
-    juperos->addPlanet(Planet("14 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 13);
-    juperos->addPlanet(Planet("15 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 14);
-    juperos->addPlanet(Planet("16 спутник", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 15);
+
+    juperos->addPlanet(Planet("Метида",     9.5    * pow(10,16),   127690000,       0.00002,     0.3f,  0), 0);
+    juperos->addPlanet(Planet("Адрастея",   1.91   * pow(10,16),   128690000,       0.0015,      0.3f,  0), 1);
+    juperos->addPlanet(Planet("Амальтея",   7.17   * pow(10,17),   181690000,       0.0032,      0.3f,  0), 2);
+    juperos->addPlanet(Planet("Теба",       7.77   * pow(10,17),   222000000,       0.0038,      0.3f,  0), 3);
+    juperos->addPlanet(Planet("Ио",         8.94   * pow(10,22),   422000000,       0.0041,      0.3f,  0), 4);
+    juperos->addPlanet(Planet("Европа",     4.8    * pow(10,22),   617000000,       0.0094,      0.3f,  0), 5);
+    juperos->addPlanet(Planet("Ганимед",    1.48   * pow(10,23),   1070000000,      0.0011,      0.3f,  0), 6);
+    juperos->addPlanet(Planet("Каллисто",   1.08   * pow(10,23),   1883000000,      0.0074,      0.3f,  0), 7);
+    juperos->addPlanet(Planet("Леда",       5.68   * pow(10,15),   11094000000,     0.1673,      0.3f,  0), 8);
+    juperos->addPlanet(Planet("Гималия",    9.56   * pow(10,18),   11480000000,     0.1513,      0.3f,  0), 9);
+    juperos->addPlanet(Planet("Лизистея",   7.77   * pow(10,16),   11720000000,     0.1322,      0.3f,  0), 10);
+    juperos->addPlanet(Planet("Илара",      7.77   * pow(10,17),   11737000000,     0.1374,      0.3f,  0), 11);
+    juperos->addPlanet(Planet("Ананке",     3.82   * pow(10,16),   21200000000,     0.3445,      0.3f,  0), 12);
+    juperos->addPlanet(Planet("Карме",      9.56   * pow(10,16),   22600000000,     0.2342,      0.3f,  0), 13);
+    juperos->addPlanet(Planet("Писифе",     1.91   * pow(10,17),   23500000000,     0.3288,      0.3f,  0), 14);
+    juperos->addPlanet(Planet("Синопе",     7.77   * pow(10,17),   23700000000,     0.2750,      0.3f,  0), 15);
 
     satellitesTable = new bool[8];
     for(int i = 0; i < 8; i++)
@@ -162,7 +162,7 @@ void Application::processJuperosMainMenu()
                 processJuperosSatelliteInfoMenu(menuChoice);
             }
             else
-                std::cout << "Некорректный номер планеты";
+                std::cout << "Некорректный номер спутника";
             break;
         case 2:
             processJuperosTableMenu();
@@ -301,14 +301,22 @@ void Application::printPlanets()
 void Application::printSatellites(){
     std::cout << std::endl
          << "Выберите спутник" << std::endl
-         << "1. " << std::endl
-         << "2. " << std::endl
-         << "3. " << std::endl
-         << "4. " << std::endl
-         << "5. " << std::endl
-         << "6. " << std::endl
-         << "7. " << std::endl
-         << "8. " << std::endl
+         << "1. Метида " << std::endl
+         << "2. Адрастея" << std::endl
+         << "3. Амальтея" << std::endl
+         << "4. Теба" << std::endl
+         << "5. Ио" << std::endl
+         << "6. Европа" << std::endl
+         << "7. Ганимед" << std::endl
+         << "8. Каллисто" << std::endl
+         << "9. Леда" << std::endl
+         << "10. Гималия" << std::endl
+         << "11. Лизистея" << std::endl
+         << "12. Илара" << std::endl
+         << "13. Ананке" << std::endl
+         << "14. Карме" << std::endl
+         << "15. Пасифе" << std::endl
+         << "16. Синопе" << std::endl
          << ">>> ";
 
 }

@@ -9,4 +9,3 @@ SUBDIRS += \
     Core \
     Test \
     GUII
-

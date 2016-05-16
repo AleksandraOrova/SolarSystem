@@ -3,8 +3,7 @@ CONFIG += staticlib c++11
 
 SOURCES += \
     planet.cpp \
-    solarsystem.cpp \
-    juperos.cpp
+    solarsystem.cpp
 
 HEADERS += \
     planet.h \
