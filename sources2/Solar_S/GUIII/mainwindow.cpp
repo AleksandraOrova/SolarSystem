@@ -10,8 +10,7 @@ MainWindow::MainWindow()
     QWidget *topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    infoLabel = new QLabel(tr("<i>Choose a menu option, or right-click to "
-                              "invoke a context menu</i>"));
+    infoLabel = new QLabel(tr("<i>Выберите пункт меню</i>"));
     infoLabel->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
     infoLabel->setAlignment(Qt::AlignCenter);
 
@@ -28,18 +27,19 @@ MainWindow::MainWindow()
     createActions();
     createMenus();
 
-    QString message = tr("A context menu is available by right-clicking");
+    QString message = tr("Контекстное меню доступно при помощи правой клавиши мыши");
     statusBar()->showMessage(message);
 
     setWindowTitle(tr("Симулятор звездной системы"));
     setMinimumSize(160, 160);
-    resize(480, 320);
-
+    resize(730, 525);
+/*
     QPixmap background(":/SolarSystem/report/andromedawan.jpg");
     QPalette qPalette;
     qPalette.setBrush(this->backgroundRole(),QBrush(background));
     this->setPalette(qPalette);
     this->setFixedSize(730,525);
+*/
 }
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
@@ -53,10 +53,9 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 
 void MainWindow::about()
 {
-    infoLabel->setText(tr("Invoked <b>Help|About</b>"));
-    QMessageBox::about(this, tr("About Menu"),
-            tr("The <b>Menu</b> example shows how to create "
-               "menu-bar menus and context menus."));
+    infoLabel->setText(tr("Вызвано <b>Помощь|О проекте</b>"));
+    QMessageBox::about(this, tr("О проекте"),
+            tr("Simulator of Solar System created by Aleksandra Orova"));
 }
 void MainWindow::aboutQt()
 {
@@ -262,9 +261,9 @@ void MainWindow:: Satellite16()
 
 void MainWindow::createMenus()
 {
-    helpMenu = menuBar()->addMenu(tr("&Проект"));
-    helpMenu->addAction(aboutAct);
-    helpMenu->addAction(aboutQtAct);
+    project = menuBar()->addMenu(tr("&Проект"));
+    project->addAction(aboutAct);
+    project->addAction(aboutQtAct);
 
     solarSystemView = menuBar()->addMenu(tr("&Солнечная система"));
     for (int i = 0; i < 8; i++)

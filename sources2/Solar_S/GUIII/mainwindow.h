@@ -19,24 +19,6 @@ protected:
     void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
-   /* void newFile();
-    void open();
-    void save();
-    void print();
-    void undo();
-    void redo();
-    void cut();
-    void copy();
-    void paste();
-    void bold();
-    void italic();
-    void leftAlign();
-    void rightAlign();
-    void justify();
-    void center();
-    void setLineSpacing();
-    void setParagraphSpacing();*/
-
     void about();
     void aboutQt();
 
@@ -70,15 +52,6 @@ private:
     void createActions();
     void createMenus();
 
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *formatMenu;
-    QMenu *helpMenu;
-    QActionGroup *alignmentGroup;
-    QAction *newAct;
-    QAction *openAct;
-    QAction *saveAct;
-    QAction *printAct;
     QAction *exitAct;
     QAction *undoAct;
     QAction *redoAct;
