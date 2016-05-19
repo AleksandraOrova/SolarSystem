@@ -34,6 +34,12 @@ MainWindow::MainWindow()
     setWindowTitle(tr("Симулятор звездной системы"));
     setMinimumSize(160, 160);
     resize(480, 320);
+
+    QPixmap background(":/SolarSystem/report/andromedawan.jpg");
+    QPalette qPalette;
+    qPalette.setBrush(this->backgroundRole(),QBrush(background));
+    this->setPalette(qPalette);
+    this->setFixedSize(730,525);
 }
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)

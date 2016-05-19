@@ -19,7 +19,7 @@ protected:
     void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
-    void newFile();
+   /* void newFile();
     void open();
     void save();
     void print();
@@ -35,7 +35,7 @@ private slots:
     void justify();
     void center();
     void setLineSpacing();
-    void setParagraphSpacing();
+    void setParagraphSpacing();*/
 
     void about();
     void aboutQt();
