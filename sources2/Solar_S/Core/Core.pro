@@ -9,4 +9,5 @@ HEADERS += \
     planet.h \
     solarsystem.h \
     timehoursseconds.h \
-    simulator_api.h
+    simulator_api.h \
+    juperos.h

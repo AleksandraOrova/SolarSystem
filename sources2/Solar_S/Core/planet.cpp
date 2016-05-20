@@ -62,11 +62,11 @@ std::ostream& operator << (std::ostream& out, const Planet& planet)
         out << "NULL";
         return out;
     }
-    out << "Название планеты:               " << planet.name << std::endl;
-    out << "Масса:                          " << planet.mass << " кг" << std::endl;
-    out << "Расстояние до солнца:           " << planet.sunDistance() << " км" << std::endl;
-    out << "Угловая скорость:               " << planet.angularVelocity() << " рад/с" << std::endl;
-    out << "Период обращения вокруг солнца: " << planet.periodAroundSun().fromSecondstoYears() << " земной год/с" << std::endl;
-    out << "Текущий угол:                   " << planet.theta << " рад" << std::endl;
+    out << "Название планеты:                       " << planet.name << std::endl;
+    out << "Масса:                                  " << planet.mass << " кг" << std::endl;
+    out << "Расстояние до солнца/Юпитера:           " << planet.sunDistance() << " км" << std::endl;
+    out << "Угловая скорость:                       " << planet.angularVelocity() << " рад/с" << std::endl;
+    out << "Период обращения вокруг солнца/Юпитера: " << planet.periodAroundSun().fromSecondstoYears() << " земной год/с" << std::endl;
+    out << "Текущий угол:                           " << planet.theta << " рад" << std::endl;
     return out;
 }

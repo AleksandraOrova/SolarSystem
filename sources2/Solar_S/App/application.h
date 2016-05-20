@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "solarsystem.h"
+#include "juperos.h"
 #include <cmath>
 
 /**
@@ -25,32 +26,44 @@ public:
     ~Application();
 
     /**
-     * @brief Печать главного меню
-     *
+     * @brief Запуск работы консольного приложения
      */
-    void printMainMenu();
-
+    void run();
     /**
      * @brief Считывание выбора пользователя
      * @return
      */
     int getChoice();
 
+    void printPickMenu();
+    void processPickPlanet();
+
+    /**
+     * @brief Печать главного меню
+     *
+     */
+    void printSystemMainMenu();
     /**
      * @brief Обработка главного меню
      * @param choice
      */
-    void processMainMenu();
+    void processSystemMainMenu();
 
-    /**
-     * @brief Запуск работы консольного приложения
-     */
-    void run();
+    void printJuperosMainMenu();
+    void processJuperosMainMenu();
 
     /**
      * @brief Вывод списка планет
      */
     void printPlanets();
+
+    void printSatellites();
+    void printJuperosSatelliteInfoMenu();
+    void processJuperosSatelliteInfoMenu(int satelliteId);
+
+    void printJuperosTableMenu();
+    void processJuperosTableMenu();
+    void printJuperosInfoTable();
 
     /**
      * @brief Печать меню работы с планетой
@@ -89,11 +102,13 @@ private:
      * @brief Солнечная система
      */
     SolarSystem* system;
+    Juperos* juperos;
 
     /**
      * @brief Массив флагов планет для вывода в сравнении
      */
     bool* planetsTable;
+    bool* satellitesTable;
 };
 
 #endif // APPLICATION_H

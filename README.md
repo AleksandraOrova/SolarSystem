@@ -9,7 +9,7 @@
 
 ## Концепция (vision statement)
 
-Конечным результатом дейятельности над проектом является кроссплатформенный продукт, обладающией консольным, а также графическим интерфейсом.
+Конечным результатом деятельности над проектом является кроссплатформенный продукт, обладающией консольным, а также графическим интерфейсом.
 
 В данной програме существуют следующие возможности: можно рассмотреть состояние солнечной системы в конкретный момент времени, используя мышь можно приблизить и отдалить камеру от места, на которое указывает курсор, программа позволяет пользователю остановить движение планет в конкретный момент времени, запустить ход времени и менять дату, а также программа позволяет пользователю увеличивать или уменьшать скорость анимации, есть возможность выбрать любую планету, за движение которой пользователь хочет проследить (эта функция полезна для наблюдения за кажущимся попятным движением планет относительно Земли), возможность рассмотреть приблизительное движение каметы Галлея, можно рассмотреть просту Луну и Землю друг относительно друга, ближе рассмотреть Юпитер и галиллеевы спутники а также узнать что произо бы с точки зрения физики (см. законы Кеплера) при внезапном появлении/исчезновении одной или нескольких планет.
 
@@ -18,10 +18,10 @@
 Консольное приложение, способное продемонстрировать пользователю координаты выбранных небесных тел в заданный момент даты и времени.
 
 ## Диаграмма прецедентов использования
-![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/UseCaseDiagram1.jpg)
-![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/UseCaseDiagram2.jpg)
-![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/master/report/UseCaseDiagram3.jpg)
-![alt text](https://raw.githubusercontent.com/AleksandraOrova/SolarSystem/5766a3d8aab83c685f38cf38a35a9a46ef721bb0/report/UseCaseDiagram4.jpg)
+![alt text](https://github.com/AleksandraOrova/SolarSystem/blob/master/report/Diagrams/UseCaseDiagram1.jpg)
+![alt text](https://github.com/AleksandraOrova/SolarSystem/blob/master/report/Diagrams/UseCaseDiagram2.jpg)
+![alt text](https://github.com/AleksandraOrova/SolarSystem/blob/master/report/Diagrams/UseCaseDiagram3.jpg)
+![alt text](https://github.com/AleksandraOrova/SolarSystem/blob/master/report/Diagrams/UseCaseDiagram4.jpg)
 
 ## Диаграмма компонентов
 ![alt text](https://github.com/AleksandraOrova/SolarSystem/blob/master/report/Diagrams/ComponentDiagram1.jpg)
