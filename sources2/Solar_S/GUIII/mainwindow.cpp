@@ -10,6 +10,11 @@ MainWindow::MainWindow()
     QWidget *topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
+    QPixmap background(":/background.jpg");
+        QPalette pal;
+        pal.setBrush(this->backgroundRole(), QBrush(background));
+        this->setPalette(pal);
+
     infoLabel = new QLabel(tr("<i>Выберите пункт меню</i>"));
     infoLabel->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
     infoLabel->setAlignment(Qt::AlignCenter);
@@ -33,13 +38,6 @@ MainWindow::MainWindow()
     setWindowTitle(tr("Симулятор звездной системы"));
     setMinimumSize(160, 160);
     resize(730, 525);
-/*
-    QPixmap background(":/SolarSystem/report/andromedawan.jpg");
-    QPalette qPalette;
-    qPalette.setBrush(this->backgroundRole(),QBrush(background));
-    this->setPalette(qPalette);
-    this->setFixedSize(730,525);
-*/
 }
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
@@ -151,7 +149,7 @@ void MainWindow::createActions()
     satellites[14]->setStatusTip(tr("Выбор Пасифе"));
     connect(satellites[14], &QAction::triggered, this, &MainWindow::Satellite15);
     satellites[15] = new QAction(tr("&Синопе"), this);
-    satellites[15]->setStatйusTip(tr("Выбор Синопе"));
+    satellites[15]->setStatusTip(tr("Выбор Синопе"));
     connect(satellites[15], &QAction::triggered, this, &MainWindow::Satellite16);
 
     satellitesInfo = new QAction(tr("Общая информация"), this);
