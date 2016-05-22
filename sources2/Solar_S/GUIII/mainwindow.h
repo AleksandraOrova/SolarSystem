@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "planetview.h"
 
 class QAction;
 class QActionGroup;
@@ -35,6 +36,7 @@ private slots:
     void Planet6();
     void Planet7();
     void Planet8();
+    void PlanetInfoShow();
 
     void Satellite1();
     void Satellite2();
@@ -52,12 +54,14 @@ private slots:
     void Satellite14();
     void Satellite15();
     void Satellite16();
+    void showPlanet(int id);
+    void hidePlanet();
+
 
 private:
 
     void createActions();
     void createMenus();
-    void printInfoButtons();
 
     QAction *exitAct;
     QAction *undoAct;
@@ -77,8 +81,7 @@ private:
     QAction *aboutQtAct;
     QLabel *infoLabel;
     QLineEdit *lineEdit;
-    QPushButton* static_parametr_button;
-    QPushButton* dinamic_parametr_button;
+    QPushButton* step_delta;
 
     QMenu *project;
     QAction *aboutAction;
@@ -93,6 +96,10 @@ private:
     QAction *satellites[14];
     QAction *satellitesInfo;
     QAction *compareSatellites;
+    QPainter *canvas;
+    QWidget *widget;
+    PlanetView *planetView;
+    QLabel *planetName;
 };
 
 #endif

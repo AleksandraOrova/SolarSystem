@@ -3,8 +3,16 @@
 
 MainWindow::MainWindow()
 {
-    QWidget *widget = new QWidget;
+    widget = new QWidget;
     setCentralWidget(widget);
+
+    planetView = new PlanetView();
+    planetView->adjustSize();
+    planetView->setFixedSize(widget->size());
+    planetView->hide();
+    planetName = new QLabel(tr("banana"));
+    planetName->hide();
+
 
     QWidget *topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -21,11 +29,15 @@ MainWindow::MainWindow()
     QWidget *bottomFiller = new QWidget;
     bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    dinamic_parametr_button = new QPushButton("Динамические параметры", this);
-    static_parametr_button = new QPushButton("Статические параметры", this);
+    step_delta = new QPushButton("Сдвиг на дельту", this);
+    step_delta->resize(BUTTON_SIZE);
+    step_delta->move(WINDOW_SIZE.width() - 275, WINDOW_SIZE.height() + 300);
+    step_delta->hide();
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setMargin(5);
+    layout->addWidget(planetName);
+    layout->addWidget(planetView);
     layout->addWidget(topFiller);
     layout->addWidget(infoLabel);
     layout->addWidget(bottomFiller);
@@ -60,17 +72,6 @@ void MainWindow::about()
 void MainWindow::aboutQt()
 {
     infoLabel->setText(tr("Invoked <b>Help|About Qt</b>"));
-}
-
-void MainWindow::printInfoButtons()
-{
-    static_parametr_button->resize(BUTTON_SIZE);
-    static_parametr_button->move(WINDOW_SIZE.width() - 275, WINDOW_SIZE.height() - 50);
-    // connect(yes_button, SIGNAL(clicked()), SLOT(closeApp()));
-
-    dinamic_parametr_button->resize(BUTTON_SIZE);
-    dinamic_parametr_button->move(WINDOW_SIZE.width() - 75, WINDOW_SIZE.height() - 50);
-    // connect(yes_button, SIGNAL(clicked()), SLOT(closeApp()));
 }
 
 void MainWindow::createActions()
@@ -114,6 +115,7 @@ void MainWindow::createActions()
     connect(planetsInfo, &QAction::triggered, this, &MainWindow::Planet8);
     comparePlanets = new QAction(tr("Сравнение планет"), this);
     comparePlanets->setStatusTip(tr("Вывод таблицы сравнения планет"));
+    connect(comparePlanets, &QAction::triggered, this, &MainWindow::PlanetInfoShow);
 
     satellites[0] = new QAction(tr("&Метида"), this);
     satellites[0]->setStatusTip(tr("Выбор Метида"));
@@ -170,39 +172,83 @@ void MainWindow::createActions()
     compareSatellites->setStatusTip(tr("Вывод таблицы сравнения планет"));
 }
 
-
 void MainWindow:: Planet1()
 {
-    infoLabel->setText(tr("Вызвано <b>Звездная система - Меркурий</b>"));
-    printInfoButtons();
+    infoLabel->hide();
+    hidePlanet();
+    planetView->setPixmap(QPixmap(":/mercury.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Меркурий</center></h1></font>"));
+    showPlanet(0);
 }
 void MainWindow:: Planet2()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Венера</b>"));
+
+    infoLabel->hide();
+    hidePlanet();
+    planetView->setPixmap(QPixmap(":/venus.jpg"));
+    planetView->show();
+    showPlanet(1);
 }
 void MainWindow:: Planet3()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Земля</b>"));
+
+    infoLabel->hide();
+    hidePlanet();
+    planetView->setPixmap(QPixmap(":/earth.jpg"));
+    planetView->show();
+    showPlanet(2);
 }
 void MainWindow:: Planet4()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Марс</b>"));
+
+    infoLabel->hide();
+    hidePlanet();
+    planetView->setPixmap(QPixmap(":/mars.jpg"));
+    planetView->show();
+    showPlanet(3);
 }
 void MainWindow:: Planet5()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Юпитер</b>"));
+
+    infoLabel->hide();
+    hidePlanet();
+    planetView->setPixmap(QPixmap(":/juperos.jpg"));
+    planetView->show();
+    showPlanet(4);
 }
 void MainWindow:: Planet6()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Сатурн</b>"));
+
+    infoLabel->hide();
+    hidePlanet();
+    planetView->setPixmap(QPixmap(":/saturn.jpg"));
+    planetView->show();
+    showPlanet(5);
 }
 void MainWindow:: Planet7()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Уран</b>"));
+
+    infoLabel->hide();
+    hidePlanet();
+    planetView->setPixmap(QPixmap(":/uranus.jpg"));
+    planetView->show();
+    showPlanet(6);
 }
 void MainWindow:: Planet8()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Нептун</b>"));
+
+    infoLabel->hide();
+    hidePlanet();
+    planetView->setPixmap(QPixmap(":/neptun.jpg"));
+    planetView->show();
+    showPlanet(7);
 }
 
 void MainWindow:: Satellite1()
@@ -270,6 +316,11 @@ void MainWindow:: Satellite16()
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Синопе</b>"));
 }
 
+void MainWindow::PlanetInfoShow()
+{
+    hidePlanet();
+}
+
 void MainWindow::createMenus()
 {
     project = menuBar()->addMenu(tr("&Проект"));
@@ -289,4 +340,22 @@ void MainWindow::createMenus()
     juperosView->addSeparator();
     juperosView->addAction(satellitesInfo);
     juperosView->addAction(compareSatellites);
+}
+
+void MainWindow::hidePlanet(){
+    step_delta->hide();
+    infoLabel->hide();
+    planetView->hide();
+    planetName->hide();
+}
+void MainWindow::showPlanet(int id){
+    step_delta->show();
+    planetView->show();
+    planetName->show();
+    //connect(step_delta, SIGNAL(clicked()), SLOT(SolarSystem::PlanetInfoShow));
+
+}
+
+void showSatellite(int id){
+
 }

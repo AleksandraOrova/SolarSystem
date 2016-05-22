@@ -13,9 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    planetview.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    planetview.h
 
 RESOURCES += \
     resources/resources.qrc
