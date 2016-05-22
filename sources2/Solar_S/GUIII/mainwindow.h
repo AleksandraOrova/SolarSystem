@@ -7,10 +7,15 @@ class QAction;
 class QActionGroup;
 class QLabel;
 class QMenu;
+class QLineEdit;
+class QPushButton;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
+    const QSize WINDOW_SIZE { 300, 90 };
+    const QSize BUTTON_SIZE { 200, 30 };
 
 public:
     MainWindow();
@@ -49,8 +54,10 @@ private slots:
     void Satellite16();
 
 private:
+
     void createActions();
     void createMenus();
+    void printInfoButtons();
 
     QAction *exitAct;
     QAction *undoAct;
@@ -69,6 +76,9 @@ private:
     QAction *aboutAct;
     QAction *aboutQtAct;
     QLabel *infoLabel;
+    QLineEdit *lineEdit;
+    QPushButton* static_parametr_button;
+    QPushButton* dinamic_parametr_button;
 
     QMenu *project;
     QAction *aboutAction;

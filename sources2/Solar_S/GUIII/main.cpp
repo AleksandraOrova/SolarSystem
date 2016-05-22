@@ -11,6 +11,7 @@
 #include <QMainWindow>
 #include <QHBoxLayout>
 #include <QStatusBar>
+#include <QLineEdit>
 #include "mainwindow.h"
 
 int main(int argc,char **argv)

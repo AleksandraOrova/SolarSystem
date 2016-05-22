@@ -1,5 +1,4 @@
 #include <QtWidgets>
-
 #include "mainwindow.h"
 
 MainWindow::MainWindow()
@@ -10,10 +9,10 @@ MainWindow::MainWindow()
     QWidget *topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    QPixmap background(":/background.jpg");
-        QPalette pal;
-        pal.setBrush(this->backgroundRole(), QBrush(background));
-        this->setPalette(pal);
+    QPixmap background(":/newBackground.jpg");
+    QPalette pal;
+    pal.setBrush(this->backgroundRole(), QBrush(background));
+    this->setPalette(pal);
 
     infoLabel = new QLabel(tr("<i>Выберите пункт меню</i>"));
     infoLabel->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
@@ -21,6 +20,9 @@ MainWindow::MainWindow()
 
     QWidget *bottomFiller = new QWidget;
     bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    dinamic_parametr_button = new QPushButton("Динамические параметры", this);
+    static_parametr_button = new QPushButton("Статические параметры", this);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setMargin(5);
@@ -60,14 +62,24 @@ void MainWindow::aboutQt()
     infoLabel->setText(tr("Invoked <b>Help|About Qt</b>"));
 }
 
+void MainWindow::printInfoButtons()
+{
+    static_parametr_button->resize(BUTTON_SIZE);
+    static_parametr_button->move(WINDOW_SIZE.width() - 275, WINDOW_SIZE.height() - 50);
+    // connect(yes_button, SIGNAL(clicked()), SLOT(closeApp()));
+
+    dinamic_parametr_button->resize(BUTTON_SIZE);
+    dinamic_parametr_button->move(WINDOW_SIZE.width() - 75, WINDOW_SIZE.height() - 50);
+    // connect(yes_button, SIGNAL(clicked()), SLOT(closeApp()));
+}
+
 void MainWindow::createActions()
 {
-
-    aboutAct = new QAction(tr("О &проекте"), this);
+    aboutAct = new QAction(tr("&О проекте"), this);
     aboutAct->setStatusTip(tr("Выбор краткой анотации к проекту"));
     connect(aboutAct, &QAction::triggered, this, &MainWindow::about);
 
-    aboutQtAct = new QAction(tr("О &Qt"), this);
+    aboutQtAct = new QAction(tr("&О Qt"), this);
     aboutQtAct->setStatusTip(tr("Показать библиотеки Qt"));
     connect(aboutQtAct, &QAction::triggered, qApp, &QApplication::aboutQt);
     connect(aboutQtAct, &QAction::triggered, this, &MainWindow::aboutQt);
@@ -162,6 +174,7 @@ void MainWindow::createActions()
 void MainWindow:: Planet1()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Меркурий</b>"));
+    printInfoButtons();
 }
 void MainWindow:: Planet2()
 {

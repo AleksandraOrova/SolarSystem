@@ -1,5 +1,15 @@
 <!DOCTYPE RCC> <RCC version="1.0">
 <qresource>
     <file>background.jpg</file>
+    <file>newBackground.jpg</file>
+    <file>sun.jpg</file>
+    <file>mercury.jpg</file>
+    <file>venus.jpg</file>
+    <file>earth.jpg</file>
+    <file>mars.jpg</file>
+    <file>juperos.jpg</file>
+    <file>saturn.jpg</file>
+    <file>uranus.jpg</file>
+    <file>neptun.jpg</file>
 </qresource>
 </RCC>
