@@ -1,0 +1,4 @@
+#ifndef SPACEOBJECT_H
+#define SPACEOBJECT_H
+
+#endif // SPACEOBJECT_H
