@@ -43,7 +43,7 @@ MainWindow::MainWindow()
     QWidget *topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    QPixmap background(":/newBackground.jpg");
+    QPixmap background(":/1.jpg");
     QPalette pal;
     pal.setBrush(this->backgroundRole(), QBrush(background));
     this->setPalette(pal);

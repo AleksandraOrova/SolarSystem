@@ -2,8 +2,8 @@
 
 void SystemDrawer::paintEvent(QPaintEvent *) {
     QPainter p(this);
-//    p.setBrush(QBrush(Qt::black));
-//    p.drawRect(0,0, width(), height());
+    //p.setBrush(QBrush(Qt::black));
+    //p.drawRect(0,0, width(), height());
     p.setBrush(QBrush(Qt::white,Qt::NoBrush));
     p.setPen(QPen(Qt::red,1,Qt::SolidLine));
     double ppu = width()/system->getPlanet(8).sunDistance()/3;
