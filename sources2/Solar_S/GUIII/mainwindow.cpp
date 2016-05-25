@@ -1,5 +1,6 @@
 #include <QtWidgets>
 #include "mainwindow.h"
+#include "solar_interface.h"
 
 MainWindow::MainWindow()
 {
@@ -13,6 +14,31 @@ MainWindow::MainWindow()
     planetName = new QLabel(tr("banana"));
     planetName->hide();
 
+    satelliteView = new SatelliteView();
+    satelliteView->adjustSize();
+    satelliteView->setFixedSize(widget->size());
+    satelliteView->hide();
+    satelliteName = new QLabel(tr("banana"));
+    satelliteName->hide();
+
+    system = new SolarSystem(8);
+    system->addPlanet(Planet("Меркурий", 3.302  * pow(10,23),   57909227000,     0.20563593,  0.3f,  0), 0);
+    system->addPlanet(Planet("Венера",   4.8685 * pow(10,24),  108208930000,         0.0068,  0.4f,  0), 1);
+    system->addPlanet(Planet("Земля",    5.973  * pow(10,24),  149598261000,     0.01671123,  0.5f,  0), 2);
+    system->addPlanet(Planet("Марс",     6.4185 * pow(10,23),  227943820000,      0.0933941,  0.45f, 0), 3);
+    system->addPlanet(Planet("Юпитер",   1.8986 * pow(10,27),  778547200000,       0.048775,  0.8f,  0), 4);
+    system->addPlanet(Planet("Сатурн",   5.6846 * pow(10,26), 1433449370000,    0.055723219,  0.7f,  0), 5);
+    system->addPlanet(Planet("Уран",     8.6832 * pow(10,25), 2876679082000,    0.044405586,  0.6f,  0), 6);
+    system->addPlanet(Planet("Нептун",   1.0243 * pow(10,26), 4503443661000,    0.011214269,  0.6f,  0), 7);
+
+    systemDrawer = new SystemDrawer(system);
+    systemDrawer->adjustSize();
+    systemDrawer->setFixedSize(widget->size());
+    systemDrawer->hide();
+
+    planetTimer = new QTimer(this);
+    connect(planetTimer, SIGNAL(timeout()), SLOT(movePlanet()));
+
 
     QWidget *topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -22,7 +48,7 @@ MainWindow::MainWindow()
     pal.setBrush(this->backgroundRole(), QBrush(background));
     this->setPalette(pal);
 
-    infoLabel = new QLabel(tr("<i>Выберите пункт меню</i>"));
+    infoLabel = new QLabel(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Выберите пункт меню</center></h1></font>"));
     infoLabel->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
     infoLabel->setAlignment(Qt::AlignCenter);
 
@@ -35,9 +61,12 @@ MainWindow::MainWindow()
     step_delta->hide();
 
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->setMargin(5);
+    layout->setMargin(7);
+    layout->addWidget(systemDrawer);
     layout->addWidget(planetName);
     layout->addWidget(planetView);
+    layout->addWidget(satelliteName);
+    layout->addWidget(satelliteView);
     layout->addWidget(topFiller);
     layout->addWidget(infoLabel);
     layout->addWidget(bottomFiller);
@@ -73,7 +102,6 @@ void MainWindow::aboutQt()
 {
     infoLabel->setText(tr("Invoked <b>Help|About Qt</b>"));
 }
-
 void MainWindow::createActions()
 {
     aboutAct = new QAction(tr("&О проекте"), this);
@@ -88,6 +116,7 @@ void MainWindow::createActions()
     planets[0] = new QAction(tr("&Меркурий"), this);
     planets[0]->setStatusTip(tr("Выбор Меркурий"));
     connect(planets[0], &QAction::triggered, this, &MainWindow::Planet1);
+    //connect(planets[0], &QAction::triggered, this, &SolarSystem::step);
     planets[1] = new QAction(tr("&Венера"), this);
     planets[1]->setStatusTip(tr("Выбор Венера"));
     connect(planets[1], &QAction::triggered, this, &MainWindow::Planet2);
@@ -110,9 +139,10 @@ void MainWindow::createActions()
     planets[7]->setStatusTip(tr("Выбор Нептун"));
     connect(planets[7], &QAction::triggered, this, &MainWindow::Planet8);
 
-    planetsInfo = new QAction(tr("Общая информация"), this);
-    planetsInfo->setStatusTip(tr("Вывод полной информации о планетах"));
-    connect(planetsInfo, &QAction::triggered, this, &MainWindow::Planet8);
+    planetsInfo = new QAction(tr("Демонстрация движения"), this);
+    planetsInfo->setStatusTip(tr("Демонстрация движения планет"));
+    connect(planetsInfo, &QAction::triggered, this, &MainWindow::PlanetMotionShow);
+
     comparePlanets = new QAction(tr("Сравнение планет"), this);
     comparePlanets->setStatusTip(tr("Вывод таблицы сравнения планет"));
     connect(comparePlanets, &QAction::triggered, this, &MainWindow::PlanetInfoShow);
@@ -167,13 +197,13 @@ void MainWindow::createActions()
     connect(satellites[15], &QAction::triggered, this, &MainWindow::Satellite16);
 
     satellitesInfo = new QAction(tr("Общая информация"), this);
-    satellitesInfo->setStatusTip(tr("Вывод полной информации о планетах"));
+    satellitesInfo->setStatusTip(tr("Вывод полной информации о спутнках"));
     compareSatellites = new QAction(tr("Сравнение планет"), this);
     compareSatellites->setStatusTip(tr("Вывод таблицы сравнения планет"));
 }
-
 void MainWindow:: Planet1()
 {
+    hideSatellite();
     infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/mercury.jpg"));
@@ -183,144 +213,264 @@ void MainWindow:: Planet1()
 void MainWindow:: Planet2()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Венера</b>"));
-
+    hideSatellite();
     infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/venus.jpg"));
-    planetView->show();
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Венера</center></h1></font>"));
     showPlanet(1);
 }
 void MainWindow:: Planet3()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Земля</b>"));
-
+    hideSatellite();
     infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/earth.jpg"));
-    planetView->show();
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Земля</center></h1></font>"));
     showPlanet(2);
 }
 void MainWindow:: Planet4()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Марс</b>"));
-
+    hideSatellite();
     infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/mars.jpg"));
-    planetView->show();
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Марс</center></h1></font>"));
     showPlanet(3);
 }
 void MainWindow:: Planet5()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Юпитер</b>"));
-
+    hideSatellite();
     infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/juperos.jpg"));
-    planetView->show();
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Юпитер</center></h1></font>"));
     showPlanet(4);
 }
 void MainWindow:: Planet6()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Сатурн</b>"));
-
+    hideSatellite();
     infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/saturn.jpg"));
-    planetView->show();
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Сатурн</center></h1></font>"));
     showPlanet(5);
 }
 void MainWindow:: Planet7()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Уран</b>"));
-
+    hideSatellite();
     infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/uranus.jpg"));
-    planetView->show();
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Уран</center></h1></font>"));
     showPlanet(6);
 }
 void MainWindow:: Planet8()
 {
     infoLabel->setText(tr("Вызвано <b>Звездная система - Нептун</b>"));
-
+    hideSatellite();
     infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/neptun.jpg"));
-    planetView->show();
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Нептун</center></h1></font>"));
     showPlanet(7);
 }
-
 void MainWindow:: Satellite1()
 {
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Метида</b>"));
+    hidePlanet();
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/neptun.jpg"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Метида</center></h1></font>"));
+    showSatellite(0);
 }
 void MainWindow:: Satellite2()
 {
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Адрастея</b>"));
+    hidePlanet();
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/adrastea.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Адрастея</center></h1></font>"));
+    showSatellite(1);
 }
 void MainWindow:: Satellite3()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Амальтея</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Amaltea.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Амальтея</center></h1></font>"));
+    showSatellite(2);
 }
 void MainWindow:: Satellite4()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Теба</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Teba.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Теба</center></h1></font>"));
+    showSatellite(3);
 }
 void MainWindow:: Satellite5()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Ио</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Io.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ио</center></h1></font>"));
+    showSatellite(4);
 }
 void MainWindow:: Satellite6()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Европа</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/europa.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Европа</center></h1></font>"));
+    showSatellite(5);
 }
 void MainWindow:: Satellite7()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Ганимед</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Ganimed.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ганимед</center></h1></font>"));
+    showSatellite(6);
 }
 void MainWindow:: Satellite8()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Каллисто</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Kallisto.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Каллисто</center></h1></font>"));
+    showSatellite(7);
 }
 void MainWindow:: Satellite9()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Леда</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Leda.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Леда</center></h1></font>"));
+    showSatellite(8);
 }
 void MainWindow:: Satellite10()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Гималия</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Gimalia.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Гималия</center></h1></font>"));
+    showSatellite(9);
 }
 void MainWindow:: Satellite11()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Лизистея</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Lizistea.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Лизистея</center></h1></font>"));
+    showSatellite(10);
 }
 void MainWindow:: Satellite12()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Илара</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Ilara.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Илара</center></h1></font>"));
+    showSatellite(11);
 }
 void MainWindow:: Satellite13()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Ананке</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Ananke.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ананке</center></h1></font>"));
+    showSatellite(12);
 }
 void MainWindow:: Satellite14()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Карме</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Karme.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Карме</center></h1></font>"));
+    showSatellite(13);
 }
 void MainWindow:: Satellite15()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Писифе</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Pasife.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Писифе</center></h1></font>"));
+    showSatellite(14);
 }
 void MainWindow:: Satellite16()
 {
+    hidePlanet();
     infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Синопе</b>"));
+    infoLabel->hide();
+    hideSatellite();
+    satelliteView->setPixmap(QPixmap(":/Sinope.jpg"));
+    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Синопе</center></h1></font>"));
+    showSatellite(15);
 }
-
-void MainWindow::PlanetInfoShow()
+void MainWindow:: PlanetInfoShow()
 {
     hidePlanet();
+    hideSatellite();
+    if (planetTimer->isActive())
+        planetTimer->stop();
 }
+void MainWindow:: SatelliteInfoShow()
+{
+    hidePlanet();
+    hideSatellite();
+    if (planetTimer->isActive())
+        planetTimer->stop();
+}
+void MainWindow:: ComparePlanetsShow()
+{
+    hidePlanet();
+    hideSatellite();
+    if (planetTimer->isActive())
+        planetTimer->stop();
 
+    QTableWidget *tableWidget;
+    tableWidget = new QTableWidget(12, 3, this);
+}
+void MainWindow::CompareSatellitesShow()
+{
+    hidePlanet();
+    hideSatellite();
+    if (planetTimer->isActive())
+        planetTimer->stop();
+}
 void MainWindow::createMenus()
 {
     project = menuBar()->addMenu(tr("&Проект"));
@@ -341,21 +491,39 @@ void MainWindow::createMenus()
     juperosView->addAction(satellitesInfo);
     juperosView->addAction(compareSatellites);
 }
-
 void MainWindow::hidePlanet(){
     step_delta->hide();
     infoLabel->hide();
     planetView->hide();
     planetName->hide();
 }
+void MainWindow::hideSatellite(){
+    step_delta->hide();
+    infoLabel->hide();
+    satelliteView->hide();
+    satelliteName->hide();
+}
 void MainWindow::showPlanet(int id){
+    if(planetTimer->isActive())
+        planetTimer->stop();
+    systemDrawer->hide();
     step_delta->show();
     planetView->show();
     planetName->show();
     //connect(step_delta, SIGNAL(clicked()), SLOT(SolarSystem::PlanetInfoShow));
-
 }
-
-void showSatellite(int id){
-
+void MainWindow::showSatellite(int id){
+    step_delta->show();
+    satelliteView->show();
+    satelliteName->show();
+    //connect(step_delta, SIGNAL(clicked()), SLOT(SolarSystem::PlanetInfoShow));
+}
+void MainWindow::PlanetMotionShow(){
+    hidePlanet();
+    systemDrawer->show();
+    planetTimer->start(20);
+}
+void MainWindow::movePlanet(){
+    system->step(60*60*24*10); //10 days
+    systemDrawer->repaint();
 }

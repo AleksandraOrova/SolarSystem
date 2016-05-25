@@ -3,12 +3,13 @@
 
 #include<QWidget>
 #include<QPixmap>
+#include<QPainter>
 
 class PlanetView : public QWidget
 {
     Q_OBJECT
 public:
-    PlanetView(QWidget * parent = 0);
+    PlanetView(QWidget * parent = 0) : QWidget(parent){}
     void setPixmap(QPixmap pixmap);
 protected:
     void paintEvent(QPaintEvent *);

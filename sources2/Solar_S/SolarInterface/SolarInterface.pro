@@ -12,7 +12,20 @@ TARGET = SolarInterface
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES += main.cpp \
+    coordinates.cpp \
+    functions.cpp \
+    solar_interface.cpp \
+    solars.cpp \
+    planets.cpp \
+    spaceobject.cpp \
+    star.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += \
+    coordinates.h \
+    functions.h \
+    solar_interface.h \
+    solars.h \
+    planets.h \
+    spaceobject.h \
+    star.h

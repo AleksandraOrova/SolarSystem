@@ -31,7 +31,7 @@ Application::Application(){
     juperos->addPlanet(Planet("Лизистея",   7.77   * pow(10,16),   11720000000,     0.1322,      0.3f,  0), 10);
     juperos->addPlanet(Planet("Илара",      7.77   * pow(10,17),   11737000000,     0.1374,      0.3f,  0), 11);
     juperos->addPlanet(Planet("Ананке",     3.82   * pow(10,16),   21200000000,     0.3445,      0.3f,  0), 12);
-    juperos->addPlanet(Planet("Карме",      9.56   * pow(10,16),   22600000000,     0.2342,      0.3f,  0), 13);
+    juperos->addPlanet(Planet("арме",       9.56   * pow(10,16),   22600000000,     0.2342,      0.3f,  0), 13);
     juperos->addPlanet(Planet("Писифе",     1.91   * pow(10,17),   23500000000,     0.3288,      0.3f,  0), 14);
     juperos->addPlanet(Planet("Синопе",     7.77   * pow(10,17),   23700000000,     0.2750,      0.3f,  0), 15);
 

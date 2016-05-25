@@ -2,7 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 #include "planetview.h"
+#include "satelliteview.h"
+#include "solarsystem.h"
+#include "solar_interface.h"
+#include "systemdrawer.h"
 
 class QAction;
 class QActionGroup;
@@ -10,6 +15,7 @@ class QLabel;
 class QMenu;
 class QLineEdit;
 class QPushButton;
+class QTableWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -37,6 +43,8 @@ private slots:
     void Planet7();
     void Planet8();
     void PlanetInfoShow();
+    void PlanetMotionShow();
+    void SatelliteInfoShow();
 
     void Satellite1();
     void Satellite2();
@@ -56,7 +64,11 @@ private slots:
     void Satellite16();
     void showPlanet(int id);
     void hidePlanet();
+    void showSatellite(int id);
+    void hideSatellite();
 
+    void ComparePlanetsShow();
+    void CompareSatellitesShow();
 
 private:
 
@@ -100,6 +112,14 @@ private:
     QWidget *widget;
     PlanetView *planetView;
     QLabel *planetName;
+    SatelliteView *satelliteView;
+    QLabel *satelliteName;
+    SystemDrawer* systemDrawer;
+    SolarSystem* system;
+    QTimer* planetTimer;
+
+public slots:
+    void movePlanet();
 };
 
 #endif

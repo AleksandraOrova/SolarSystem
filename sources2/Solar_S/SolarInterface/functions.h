@@ -1,11 +1,9 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+#include <iostream>
+#include <sstream>
 
-class Functions
-{
-public:
-    Functions();
-};
+std::string doubleToString(double Val);
 
-#endif // FUNCTIONS_H
+#endif

@@ -101,6 +101,8 @@ public:
      * @brief Перегрузка оператора вывода в поток
      */
     friend std::ostream& operator << (std::ostream& out, const Planet& planet);
+    double getX() { return sunDistance()*cos(theta);}
+    double getY() { return sunDistance()*sin(theta);}
 };
 
 #endif // PLANET_H
