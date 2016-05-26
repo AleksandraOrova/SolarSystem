@@ -8,5 +8,5 @@ void PlanetView::setPixmap(QPixmap pixmap)
 void PlanetView::paintEvent(QPaintEvent *) {
     QPainter p(this);
     p.setPen(QPen(Qt::red,1,Qt::SolidLine)); // Настройки рисования
-    p.drawPixmap(0,0,280, 227,pixmap);
+    p.drawPixmap(0,0,500, 427,pixmap);
 }

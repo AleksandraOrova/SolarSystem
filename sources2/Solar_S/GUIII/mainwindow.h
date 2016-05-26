@@ -6,8 +6,8 @@
 #include "planetview.h"
 #include "satelliteview.h"
 #include "solarsystem.h"
-#include "solar_interface.h"
 #include "systemdrawer.h"
+#include "juperosdrawer.h"
 
 class QAction;
 class QActionGroup;
@@ -15,14 +15,13 @@ class QLabel;
 class QMenu;
 class QLineEdit;
 class QPushButton;
-class QTableWidget;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
     const QSize WINDOW_SIZE { 300, 90 };
-    const QSize BUTTON_SIZE { 200, 30 };
+    const QSize BUTTON_SIZE { 200, 50 };
 
 public:
     MainWindow();
@@ -45,6 +44,7 @@ private slots:
     void PlanetInfoShow();
     void PlanetMotionShow();
     void SatelliteInfoShow();
+    void SatelliteMotionShow();
 
     void Satellite1();
     void Satellite2();
@@ -66,6 +66,7 @@ private slots:
     void hidePlanet();
     void showSatellite(int id);
     void hideSatellite();
+
 
     void ComparePlanetsShow();
     void CompareSatellitesShow();
@@ -115,11 +116,15 @@ private:
     SatelliteView *satelliteView;
     QLabel *satelliteName;
     SystemDrawer* systemDrawer;
+    JuperosDrawer* juperosDrawer;
     SolarSystem* system;
+    SolarSystem* juperos;
     QTimer* planetTimer;
+    QTimer* satelliteTimer;
 
 public slots:
     void movePlanet();
+    void moveSatellite();
 };
 
 #endif

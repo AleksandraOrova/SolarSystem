@@ -13,15 +13,15 @@ void SystemDrawer::paintEvent(QPaintEvent *) {
 
 void SystemDrawer::drawPlanet(QPainter& p, Planet& planet, double ppu){
     p.setBrush(QBrush(Qt::white,Qt::NoBrush));
-    p.drawEllipse(QPoint(width()/2, height()/2),
+    p.drawEllipse(QPoint(480, 370),
                   planet.sunDistance()*ppu,
                   planet.sunDistance()*ppu);
 
     p.setBrush(QBrush(Qt::white,Qt::SolidPattern));
     p.drawEllipse(
                 QPoint(
-                      width()/2 + planet.getX()*ppu,
-                      height()/2 - planet.getY()*ppu
+                      480 + planet.getX()*ppu,
+                      370 - planet.getY()*ppu
                       ),
                   4,
                   4);

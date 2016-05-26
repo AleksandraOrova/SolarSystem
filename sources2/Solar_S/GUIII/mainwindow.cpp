@@ -1,11 +1,11 @@
 #include <QtWidgets>
 #include "mainwindow.h"
-#include "solar_interface.h"
 
 MainWindow::MainWindow()
 {
     widget = new QWidget;
     setCentralWidget(widget);
+    widget->setFixedSize(1000, 800);
 
     planetView = new PlanetView();
     planetView->adjustSize();
@@ -39,6 +39,31 @@ MainWindow::MainWindow()
     planetTimer = new QTimer(this);
     connect(planetTimer, SIGNAL(timeout()), SLOT(movePlanet()));
 
+    juperos = new SolarSystem(16);
+    juperos->addPlanet(Planet("Метида",     9.5    * pow(10,16),   127690000,       0.00002,     0.3f,  0), 0);
+    juperos->addPlanet(Planet("Адрастея",   1.91   * pow(10,16),   128690000,       0.0015,      0.3f,  0), 1);
+    juperos->addPlanet(Planet("Амальтея",   7.17   * pow(10,17),   181690000,       0.0032,      0.3f,  0), 2);
+    juperos->addPlanet(Planet("Теба",       7.77   * pow(10,17),   222000000,       0.0038,      0.3f,  0), 3);
+    juperos->addPlanet(Planet("Ио",         8.94   * pow(10,22),   422000000,       0.0041,      0.3f,  0), 4);
+    juperos->addPlanet(Planet("Европа",     4.8    * pow(10,22),   617000000,       0.0094,      0.3f,  0), 5);
+    juperos->addPlanet(Planet("Ганимед",    1.48   * pow(10,23),   1070000000,      0.0011,      0.3f,  0), 6);
+    juperos->addPlanet(Planet("Каллисто",   1.08   * pow(10,23),   1883000000,      0.0074,      0.3f,  0), 7);
+    juperos->addPlanet(Planet("Леда",       5.68   * pow(10,15),   11094000000,     0.1673,      0.3f,  0), 8);
+    juperos->addPlanet(Planet("Гималия",    9.56   * pow(10,18),   11480000000,     0.1513,      0.3f,  0), 9);
+    juperos->addPlanet(Planet("Лизистея",   7.77   * pow(10,16),   11720000000,     0.1322,      0.3f,  0), 10);
+    juperos->addPlanet(Planet("Илара",      7.77   * pow(10,17),   11737000000,     0.1374,      0.3f,  0), 11);
+    juperos->addPlanet(Planet("Ананке",     3.82   * pow(10,16),   21200000000,     0.3445,      0.3f,  0), 12);
+    juperos->addPlanet(Planet("арме",       9.56   * pow(10,16),   22600000000,     0.2342,      0.3f,  0), 13);
+    juperos->addPlanet(Planet("Писифе",     1.91   * pow(10,17),   23500000000,     0.3288,      0.3f,  0), 14);
+    juperos->addPlanet(Planet("Синопе",     7.77   * pow(10,17),   23700000000,     0.2750,      0.3f,  0), 15);
+
+    juperosDrawer = new JuperosDrawer(juperos);
+    juperosDrawer->adjustSize();
+    juperosDrawer->setFixedSize(widget->size());
+    juperosDrawer->hide();
+
+    satelliteTimer = new QTimer(this);
+    connect(satelliteTimer, SIGNAL(timeout()), SLOT(moveSatellite()));
 
     QWidget *topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -57,12 +82,13 @@ MainWindow::MainWindow()
 
     step_delta = new QPushButton("Сдвиг на дельту", this);
     step_delta->resize(BUTTON_SIZE);
-    step_delta->move(WINDOW_SIZE.width() - 275, WINDOW_SIZE.height() + 300);
+    step_delta->move(WINDOW_SIZE.width() - 150, WINDOW_SIZE.height() + 525);
     step_delta->hide();
 
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->setMargin(7);
+    layout->setMargin(8);
     layout->addWidget(systemDrawer);
+    layout->addWidget(juperosDrawer);
     layout->addWidget(planetName);
     layout->addWidget(planetView);
     layout->addWidget(satelliteName);
@@ -116,7 +142,6 @@ void MainWindow::createActions()
     planets[0] = new QAction(tr("&Меркурий"), this);
     planets[0]->setStatusTip(tr("Выбор Меркурий"));
     connect(planets[0], &QAction::triggered, this, &MainWindow::Planet1);
-    //connect(planets[0], &QAction::triggered, this, &SolarSystem::step);
     planets[1] = new QAction(tr("&Венера"), this);
     planets[1]->setStatusTip(tr("Выбор Венера"));
     connect(planets[1], &QAction::triggered, this, &MainWindow::Planet2);
@@ -196,10 +221,9 @@ void MainWindow::createActions()
     satellites[15]->setStatusTip(tr("Выбор Синопе"));
     connect(satellites[15], &QAction::triggered, this, &MainWindow::Satellite16);
 
-    satellitesInfo = new QAction(tr("Общая информация"), this);
-    satellitesInfo->setStatusTip(tr("Вывод полной информации о спутнках"));
-    compareSatellites = new QAction(tr("Сравнение планет"), this);
-    compareSatellites->setStatusTip(tr("Вывод таблицы сравнения планет"));
+    satellitesInfo = new QAction(tr("Демонстрация движения"), this);
+    satellitesInfo->setStatusTip(tr("Демонстрация движения планет"));
+    connect(satellitesInfo, &QAction::triggered, this, &MainWindow::SatelliteMotionShow);
 }
 void MainWindow:: Planet1()
 {
@@ -460,9 +484,6 @@ void MainWindow:: ComparePlanetsShow()
     hideSatellite();
     if (planetTimer->isActive())
         planetTimer->stop();
-
-    QTableWidget *tableWidget;
-    tableWidget = new QTableWidget(12, 3, this);
 }
 void MainWindow::CompareSatellitesShow()
 {
@@ -526,4 +547,13 @@ void MainWindow::PlanetMotionShow(){
 void MainWindow::movePlanet(){
     system->step(60*60*24*10); //10 days
     systemDrawer->repaint();
+}
+void MainWindow::SatelliteMotionShow(){
+    hideSatellite();
+    juperosDrawer->show();
+    satelliteTimer->start(20);
+}
+void MainWindow::moveSatellite(){
+    juperos->step(60*60); //10 days
+    juperosDrawer->repaint();
 }

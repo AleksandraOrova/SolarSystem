@@ -8,5 +8,5 @@ void SatelliteView::setPixmap(QPixmap pixmap)
 void SatelliteView::paintEvent(QPaintEvent *) {
     QPainter p(this);
     p.setPen(QPen(Qt::red,1,Qt::SolidLine)); // Настройки рисования
-    p.drawPixmap(0,0,280, 227, pixmap);
+    p.drawPixmap(0,0,480, 727, pixmap);
 }

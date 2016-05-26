@@ -1,11 +1,21 @@
 #ifndef JUPEROSDRAWER_H
 #define JUPEROSDRAWER_H
 
+#include<QWidget>
+#include<QPixmap>
+#include<QPainter>
 
-class JuperosDrawer
+#include "solarsystem.h"
+
+class JuperosDrawer : public QWidget
 {
+private:
+    SolarSystem* juperos;
+    void drawJuperos(QPainter& s, Planet& satellite, double ppu);
+protected:
+    void paintEvent(QPaintEvent *);
 public:
-    JuperosDrawer();
+    JuperosDrawer(SolarSystem* juperos, QWidget * parent = 0) : QWidget(parent), juperos(juperos){}
 };
 
-#endif // JUPEROSDRAWER_H
+#endif // SYSTEMDRAWER_H
