@@ -1,9 +1,9 @@
 #ifndef PLANETVIEW_H
 #define PLANETVIEW_H
 
-#include<QWidget>
-#include<QPixmap>
-#include<QPainter>
+#include <QWidget>
+#include <QPixmap>
+#include <QPainter>
 
 class PlanetView : public QWidget
 {
