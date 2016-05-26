@@ -68,6 +68,9 @@ MainWindow::MainWindow()
     QWidget *topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
+    text = new QLabel;
+    text->show();
+
     QPixmap background(":/1.jpg");
     QPalette pal;
     pal.setBrush(this->backgroundRole(), QBrush(background));
@@ -168,10 +171,6 @@ void MainWindow::createActions()
     planetsInfo->setStatusTip(tr("Демонстрация движения планет"));
     connect(planetsInfo, &QAction::triggered, this, &MainWindow::PlanetMotionShow);
 
-    comparePlanets = new QAction(tr("Сравнение планет"), this);
-    comparePlanets->setStatusTip(tr("Вывод таблицы сравнения планет"));
-    connect(comparePlanets, &QAction::triggered, this, &MainWindow::PlanetInfoShow);
-
     satellites[0] = new QAction(tr("&Метида"), this);
     satellites[0]->setStatusTip(tr("Выбор Метида"));
     connect(satellites[0], &QAction::triggered, this, &MainWindow::Satellite1);
@@ -226,9 +225,10 @@ void MainWindow::createActions()
     connect(satellitesInfo, &QAction::triggered, this, &MainWindow::SatelliteMotionShow);
 }
 void MainWindow:: Planet1()
-{
+{   if(planetTimer->isActive())
+        planetTimer->stop();
+    systemDrawer->hide();
     hideSatellite();
-    infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/mercury.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Меркурий</center></h1></font>"));
@@ -236,9 +236,10 @@ void MainWindow:: Planet1()
 }
 void MainWindow:: Planet2()
 {
-    infoLabel->setText(tr("Вызвано <b>Звездная система - Венера</b>"));
+    if(satelliteTimer->isActive())
+        satelliteTimer->stop();
+    juperosDrawer->hide();
     hideSatellite();
-    infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/venus.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Венера</center></h1></font>"));
@@ -246,9 +247,7 @@ void MainWindow:: Planet2()
 }
 void MainWindow:: Planet3()
 {
-    infoLabel->setText(tr("Вызвано <b>Звездная система - Земля</b>"));
     hideSatellite();
-    infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/earth.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Земля</center></h1></font>"));
@@ -256,9 +255,7 @@ void MainWindow:: Planet3()
 }
 void MainWindow:: Planet4()
 {
-    infoLabel->setText(tr("Вызвано <b>Звездная система - Марс</b>"));
     hideSatellite();
-    infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/mars.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Марс</center></h1></font>"));
@@ -266,9 +263,7 @@ void MainWindow:: Planet4()
 }
 void MainWindow:: Planet5()
 {
-    infoLabel->setText(tr("Вызвано <b>Звездная система - Юпитер</b>"));
     hideSatellite();
-    infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/juperos.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Юпитер</center></h1></font>"));
@@ -276,9 +271,7 @@ void MainWindow:: Planet5()
 }
 void MainWindow:: Planet6()
 {
-    infoLabel->setText(tr("Вызвано <b>Звездная система - Сатурн</b>"));
     hideSatellite();
-    infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/saturn.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Сатурн</center></h1></font>"));
@@ -286,9 +279,7 @@ void MainWindow:: Planet6()
 }
 void MainWindow:: Planet7()
 {
-    infoLabel->setText(tr("Вызвано <b>Звездная система - Уран</b>"));
     hideSatellite();
-    infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/uranus.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Уран</center></h1></font>"));
@@ -296,29 +287,24 @@ void MainWindow:: Planet7()
 }
 void MainWindow:: Planet8()
 {
-    infoLabel->setText(tr("Вызвано <b>Звездная система - Нептун</b>"));
     hideSatellite();
-    infoLabel->hide();
     hidePlanet();
     planetView->setPixmap(QPixmap(":/neptun.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Нептун</center></h1></font>"));
     showPlanet(7);
 }
+
 void MainWindow:: Satellite1()
 {
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Метида</b>"));
     hidePlanet();
-    infoLabel->hide();
     hideSatellite();
-    satelliteView->setPixmap(QPixmap(":/neptun.jpg"));
+    satelliteView->setPixmap(QPixmap(":/Metida.jpg"));
     satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Метида</center></h1></font>"));
     showSatellite(0);
 }
 void MainWindow:: Satellite2()
 {
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Адрастея</b>"));
     hidePlanet();
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/adrastea.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Адрастея</center></h1></font>"));
@@ -327,18 +313,14 @@ void MainWindow:: Satellite2()
 void MainWindow:: Satellite3()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Амальтея</b>"));
-    infoLabel->hide();
     hideSatellite();
-    satelliteView->setPixmap(QPixmap(":/Amaltea.jpg"));
+    satelliteView->setPixmap(QPixmap(":/Amalthea.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Амальтея</center></h1></font>"));
     showSatellite(2);
 }
 void MainWindow:: Satellite4()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Теба</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Teba.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Теба</center></h1></font>"));
@@ -347,8 +329,6 @@ void MainWindow:: Satellite4()
 void MainWindow:: Satellite5()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Ио</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Io.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ио</center></h1></font>"));
@@ -357,8 +337,6 @@ void MainWindow:: Satellite5()
 void MainWindow:: Satellite6()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Европа</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/europa.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Европа</center></h1></font>"));
@@ -367,8 +345,6 @@ void MainWindow:: Satellite6()
 void MainWindow:: Satellite7()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Ганимед</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Ganimed.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ганимед</center></h1></font>"));
@@ -377,8 +353,6 @@ void MainWindow:: Satellite7()
 void MainWindow:: Satellite8()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Каллисто</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Kallisto.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Каллисто</center></h1></font>"));
@@ -387,8 +361,6 @@ void MainWindow:: Satellite8()
 void MainWindow:: Satellite9()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Леда</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Leda.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Леда</center></h1></font>"));
@@ -397,8 +369,6 @@ void MainWindow:: Satellite9()
 void MainWindow:: Satellite10()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Гималия</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Gimalia.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Гималия</center></h1></font>"));
@@ -407,8 +377,6 @@ void MainWindow:: Satellite10()
 void MainWindow:: Satellite11()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Лизистея</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Lizistea.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Лизистея</center></h1></font>"));
@@ -417,8 +385,6 @@ void MainWindow:: Satellite11()
 void MainWindow:: Satellite12()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Илара</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Ilara.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Илара</center></h1></font>"));
@@ -427,8 +393,6 @@ void MainWindow:: Satellite12()
 void MainWindow:: Satellite13()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Ананке</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Ananke.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ананке</center></h1></font>"));
@@ -437,8 +401,6 @@ void MainWindow:: Satellite13()
 void MainWindow:: Satellite14()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Карме</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Karme.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Карме</center></h1></font>"));
@@ -447,8 +409,6 @@ void MainWindow:: Satellite14()
 void MainWindow:: Satellite15()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Писифе</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Pasife.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Писифе</center></h1></font>"));
@@ -457,13 +417,12 @@ void MainWindow:: Satellite15()
 void MainWindow:: Satellite16()
 {
     hidePlanet();
-    infoLabel->setText(tr("Вызвано <b>Юпитер и спутники - Синопе</b>"));
-    infoLabel->hide();
     hideSatellite();
     satelliteView->setPixmap(QPixmap(":/Sinope.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Синопе</center></h1></font>"));
     showSatellite(15);
 }
+
 void MainWindow:: PlanetInfoShow()
 {
     hidePlanet();
@@ -475,24 +434,11 @@ void MainWindow:: SatelliteInfoShow()
 {
     hidePlanet();
     hideSatellite();
-    if (planetTimer->isActive())
-        planetTimer->stop();
+    if (satelliteTimer->isActive())
+        satelliteTimer->stop();
 }
-void MainWindow:: ComparePlanetsShow()
-{
-    hidePlanet();
-    hideSatellite();
-    if (planetTimer->isActive())
-        planetTimer->stop();
-}
-void MainWindow::CompareSatellitesShow()
-{
-    hidePlanet();
-    hideSatellite();
-    if (planetTimer->isActive())
-        planetTimer->stop();
-}
-void MainWindow::createMenus()
+
+void MainWindow:: createMenus()
 {
     project = menuBar()->addMenu(tr("&Проект"));
     project->addAction(aboutAct);
@@ -503,28 +449,28 @@ void MainWindow::createMenus()
         solarSystemView->addAction(planets[i]);
     solarSystemView->addSeparator();
     solarSystemView->addAction(planetsInfo);
-    solarSystemView->addAction(comparePlanets);
 
     juperosView = menuBar()->addMenu(tr("&Юпитер и спутники"));
     for (int i = 0; i < 16; i++)
         juperosView->addAction(satellites[i]);
     juperosView->addSeparator();
     juperosView->addAction(satellitesInfo);
-    juperosView->addAction(compareSatellites);
 }
-void MainWindow::hidePlanet(){
+
+void MainWindow:: hidePlanet(){
     step_delta->hide();
     infoLabel->hide();
     planetView->hide();
     planetName->hide();
 }
-void MainWindow::hideSatellite(){
+void MainWindow:: hideSatellite(){
     step_delta->hide();
     infoLabel->hide();
     satelliteView->hide();
     satelliteName->hide();
 }
-void MainWindow::showPlanet(int id){
+
+void MainWindow:: showPlanet(int id){
     if(planetTimer->isActive())
         planetTimer->stop();
     systemDrawer->hide();
@@ -533,27 +479,32 @@ void MainWindow::showPlanet(int id){
     planetName->show();
     //connect(step_delta, SIGNAL(clicked()), SLOT(SolarSystem::PlanetInfoShow));
 }
-void MainWindow::showSatellite(int id){
+void MainWindow:: showSatellite(int id){
+    if(satelliteTimer->isActive())
+        satelliteTimer->stop();
+    juperosDrawer->hide();
     step_delta->show();
     satelliteView->show();
     satelliteName->show();
     //connect(step_delta, SIGNAL(clicked()), SLOT(SolarSystem::PlanetInfoShow));
 }
-void MainWindow::PlanetMotionShow(){
+
+void MainWindow:: PlanetMotionShow(){
     hidePlanet();
     systemDrawer->show();
     planetTimer->start(20);
 }
-void MainWindow::movePlanet(){
+void MainWindow:: movePlanet(){
     system->step(60*60*24*10); //10 days
     systemDrawer->repaint();
 }
-void MainWindow::SatelliteMotionShow(){
+
+void MainWindow:: SatelliteMotionShow(){
     hideSatellite();
     juperosDrawer->show();
     satelliteTimer->start(20);
 }
-void MainWindow::moveSatellite(){
+void MainWindow:: moveSatellite(){
     juperos->step(60*60); //10 days
     juperosDrawer->repaint();
 }

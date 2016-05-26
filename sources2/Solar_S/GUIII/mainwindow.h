@@ -67,10 +67,6 @@ private slots:
     void showSatellite(int id);
     void hideSatellite();
 
-
-    void ComparePlanetsShow();
-    void CompareSatellitesShow();
-
 private:
 
     void createActions();
@@ -103,12 +99,10 @@ private:
     QMenu *solarSystemView;
     QAction *planets[8];
     QAction *planetsInfo;
-    QAction *comparePlanets;
 
     QMenu *juperosView;
     QAction *satellites[14];
     QAction *satellitesInfo;
-    QAction *compareSatellites;
     QPainter *canvas;
     QWidget *widget;
     PlanetView *planetView;
@@ -121,6 +115,7 @@ private:
     SolarSystem* juperos;
     QTimer* planetTimer;
     QTimer* satelliteTimer;
+    QLabel* text;
 
 public slots:
     void movePlanet();
