@@ -72,9 +72,9 @@ MainWindow::MainWindow()
     text->show();
 
     QPixmap background(":/1.jpg");
-    QPalette pal;
-    pal.setBrush(this->backgroundRole(), QBrush(background));
-    this->setPalette(pal);
+    QPalette palett;
+    palett.setBrush(this->backgroundRole(), QBrush(background));
+    this->setPalette(palett);
 
     infoLabel = new QLabel(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Выберите пункт меню</center></h1></font>"));
     infoLabel->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
@@ -83,10 +83,48 @@ MainWindow::MainWindow()
     QWidget *bottomFiller = new QWidget;
     bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
+    current_planet = 0;
+    current_system = "";
     step_delta = new QPushButton("Сдвиг на дельту", this);
     step_delta->resize(BUTTON_SIZE);
-    step_delta->move(WINDOW_SIZE.width() - 150, WINDOW_SIZE.height() + 525);
+    step_delta->move(150, 590);
     step_delta->hide();
+    connect(step_delta, SIGNAL(clicked()), SLOT(moveInTime()));
+
+    days = new QLineEdit(this);
+    createLine(days, 110, 550);
+    hours = new QLineEdit(this);
+    createLine(hours, 180, 550);
+    minutes = new QLineEdit(this);
+    createLine(minutes, 250, 550);
+    seconds = new QLineEdit(this);
+    createLine(seconds, 320, 550);
+
+    days_text = new QLabel("Дни", this);
+    createLabel(days_text, 110, 520);
+    days_text->setStyleSheet("color: #ffffff;"
+                             "font-size: 18px;"
+                             "font-weight: bold;");
+    days_text->hide();
+    hours_text = new QLabel("Часы", this);
+    createLabel(hours_text, 180, 520);
+    hours_text->setStyleSheet("color: #ffffff;"
+                              "font-size: 18px;"
+                              "font-weight: bold;");
+    hours_text->hide();
+    minutes_text = new QLabel("Мин.", this);
+    createLabel(minutes_text, 250, 520);
+    minutes_text->setStyleSheet("color: #ffffff;"
+                                "font-size: 18px;"
+                                "font-weight: bold;");
+    minutes_text->hide();
+    seconds_text = new QLabel("Сек.", this);
+    createLabel(seconds_text, 320, 520);
+    seconds_text->setStyleSheet("color: #ffffff;"
+                                "font-size: 18px;"
+                                "font-weight: bold;");
+    seconds_text->hide();
+
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setMargin(8);
@@ -104,12 +142,109 @@ MainWindow::MainWindow()
     createActions();
     createMenus();
 
+    static_param = new QFrame(this);
+    static_param->move(600, 60);
+    static_param->setFixedSize(400, 250);
+    static_param->hide();
+
+    dynamic_param = new QFrame(this);
+    dynamic_param->move(600, 450);
+    dynamic_param->setFixedSize(350, 250);
+    dynamic_param->hide();
+
+    static_text_mass = new QLabel("Масса", static_param);
+    createLabel(static_text_mass, 30, 50);
+    static_text_period = new QLabel("Период", static_param);
+    createLabel(static_text_period, 30, 100);
+    static_text_ugl_V = new QLabel("Угловая скорость", static_param);
+    createLabel(static_text_ugl_V, 30, 150);
+
+    planet_mass = new QLabel(static_param);
+    createLabel(planet_mass, 220, 50);
+    planet_mass->setFixedSize(200, 20);
+    planet_period = new QLabel(static_param);
+    createLabel(planet_period, 220, 100);
+    planet_period->setFixedSize(200, 20);
+    planet_ugl_V = new QLabel(static_param);
+    createLabel(planet_ugl_V, 220, 153);
+    planet_ugl_V->setFixedSize(200, 20);
+
+    dynamic_text_distance = new QLabel("Расстояние до Солнца", dynamic_param);
+    createLabel(dynamic_text_distance, 30, 60);
+    dynamic_text_distance->setFixedSize(350, 20);
+    dynamic_text_ugol = new QLabel("Текущий угол", dynamic_param);
+    createLabel(dynamic_text_ugol, 30, 140);
+
+    planet_distance = new QLabel(dynamic_param);
+    createLabel(planet_distance, 150, 90);
+    planet_distance->setFixedSize(200, 20);
+    planet_ugol = new QLabel(dynamic_param);
+    createLabel(planet_ugol, 220, 140);
+    planet_ugol->setFixedSize(200, 20);
+
     QString message = tr("Контекстное меню доступно при помощи правой клавиши мыши");
     statusBar()->showMessage(message);
 
     setWindowTitle(tr("Симулятор звездной системы"));
     setMinimumSize(160, 160);
     resize(730, 525);
+}
+
+void MainWindow::createLabel(QLabel* label, int x, int y)
+{
+   label->setStyleSheet("color: #ffffff;"
+                        "font-size: 20px;"
+                        "font-weight: bold;");
+   label->move(x, y);
+   label->show();
+}
+
+void MainWindow::createLine(QLineEdit *line, int x, int y)
+{
+    line->move(x, y);
+    line->resize(60, 20);
+    line->setStyleSheet("font-weight: bold;"
+                        "font-size: 14px;");
+    line->hide();
+}
+
+void MainWindow::updateLabel()
+{
+    Planet& planet = juperos->getPlanet(11);
+    if (current_system == "solar") {
+        planet = system->getPlanet(current_planet);
+        dynamic_text_distance->setText("Расстояние до Солнца");
+    }
+    if (current_system == "juperos"){
+        planet = juperos->getPlanet(current_planet);
+        dynamic_text_distance->setText("Расстояние до Юпитера");
+    }
+
+    Time time = planet.periodAroundSun();
+    double number = time.fromSecondstoYears();
+    QString string_number = QString::number(number);
+    planet_period->setText(string_number);
+    planet_period->show();
+
+    number = planet.sunDistance();
+    string_number = QString::number(number);
+    planet_distance->setText(string_number);
+    planet_distance->show();
+
+    number = planet.linearVelocity();
+    string_number = QString::number(number);
+    planet_ugl_V->setText(string_number);
+    planet_ugl_V->show();
+
+    number = planet.getTheta();
+    string_number = QString::number(number);
+    planet_ugol->setText(string_number);
+    planet_ugol->show();
+
+    number = planet.getMass();
+    string_number = QString::number(number);
+    planet_mass->setText(string_number);
+    planet_mass->show();
 }
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
@@ -127,6 +262,7 @@ void MainWindow::about()
     QMessageBox::about(this, tr("О проекте"),
             tr("Simulator of Solar System created by Aleksandra Orova"));
 }
+
 void MainWindow::aboutQt()
 {
     infoLabel->setText(tr("Invoked <b>Help|About Qt</b>"));
@@ -224,12 +360,16 @@ void MainWindow::createActions()
     satellitesInfo->setStatusTip(tr("Демонстрация движения планет"));
     connect(satellitesInfo, &QAction::triggered, this, &MainWindow::SatelliteMotionShow);
 }
+
 void MainWindow:: Planet1()
 {   if(planetTimer->isActive())
         planetTimer->stop();
     systemDrawer->hide();
+    current_system = "solar";
+    current_planet = 1;
     hideSatellite();
     hidePlanet();
+    updateLabel();
     planetView->setPixmap(QPixmap(":/mercury.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Меркурий</center></h1></font>"));
     showPlanet(0);
@@ -239,8 +379,11 @@ void MainWindow:: Planet2()
     if(satelliteTimer->isActive())
         satelliteTimer->stop();
     juperosDrawer->hide();
+    current_system = "solar";
+    current_planet = 2;
     hideSatellite();
     hidePlanet();
+    updateLabel();
     planetView->setPixmap(QPixmap(":/venus.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Венера</center></h1></font>"));
     showPlanet(1);
@@ -249,6 +392,9 @@ void MainWindow:: Planet3()
 {
     hideSatellite();
     hidePlanet();
+    current_system = "solar";
+    current_planet = 3;
+    updateLabel();
     planetView->setPixmap(QPixmap(":/earth.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Земля</center></h1></font>"));
     showPlanet(2);
@@ -257,6 +403,9 @@ void MainWindow:: Planet4()
 {
     hideSatellite();
     hidePlanet();
+    current_system = "solar";
+    current_planet = 4;
+    updateLabel();
     planetView->setPixmap(QPixmap(":/mars.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Марс</center></h1></font>"));
     showPlanet(3);
@@ -265,6 +414,9 @@ void MainWindow:: Planet5()
 {
     hideSatellite();
     hidePlanet();
+    current_system = "solar";
+    current_planet = 5;
+    updateLabel();
     planetView->setPixmap(QPixmap(":/juperos.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Юпитер</center></h1></font>"));
     showPlanet(4);
@@ -273,6 +425,9 @@ void MainWindow:: Planet6()
 {
     hideSatellite();
     hidePlanet();
+    current_system = "solar";
+    current_planet = 6;
+    updateLabel();
     planetView->setPixmap(QPixmap(":/saturn.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Сатурн</center></h1></font>"));
     showPlanet(5);
@@ -281,6 +436,9 @@ void MainWindow:: Planet7()
 {
     hideSatellite();
     hidePlanet();
+    current_system = "solar";
+    current_planet = 7;
+    updateLabel();
     planetView->setPixmap(QPixmap(":/uranus.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Уран</center></h1></font>"));
     showPlanet(6);
@@ -289,6 +447,9 @@ void MainWindow:: Planet8()
 {
     hideSatellite();
     hidePlanet();
+    current_system = "solar";
+    current_planet = 8;
+    updateLabel();
     planetView->setPixmap(QPixmap(":/neptun.jpg"));
     planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Нептун</center></h1></font>"));
     showPlanet(7);
@@ -298,6 +459,9 @@ void MainWindow:: Satellite1()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 1;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Metida.jpg"));
     satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Метида</center></h1></font>"));
     showSatellite(0);
@@ -306,120 +470,165 @@ void MainWindow:: Satellite2()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 2;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/adrastea.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Адрастея</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Адрастея</center></h1></font>"));
     showSatellite(1);
 }
 void MainWindow:: Satellite3()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 3;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Amalthea.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Амальтея</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Амальтея</center></h1></font>"));
     showSatellite(2);
 }
 void MainWindow:: Satellite4()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 4;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Teba.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Теба</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Теба</center></h1></font>"));
     showSatellite(3);
 }
 void MainWindow:: Satellite5()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 5;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Io.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ио</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ио</center></h1></font>"));
     showSatellite(4);
 }
 void MainWindow:: Satellite6()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 6;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/europa.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Европа</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Европа</center></h1></font>"));
     showSatellite(5);
 }
 void MainWindow:: Satellite7()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 7;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Ganimed.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ганимед</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ганимед</center></h1></font>"));
     showSatellite(6);
 }
 void MainWindow:: Satellite8()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 8;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Kallisto.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Каллисто</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Каллисто</center></h1></font>"));
     showSatellite(7);
 }
 void MainWindow:: Satellite9()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 9;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Leda.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Леда</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Леда</center></h1></font>"));
     showSatellite(8);
 }
 void MainWindow:: Satellite10()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 10;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Gimalia.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Гималия</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Гималия</center></h1></font>"));
     showSatellite(9);
 }
 void MainWindow:: Satellite11()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 11;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Lizistea.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Лизистея</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Лизистея</center></h1></font>"));
     showSatellite(10);
 }
 void MainWindow:: Satellite12()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 12;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Ilara.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Илара</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Илара</center></h1></font>"));
     showSatellite(11);
 }
 void MainWindow:: Satellite13()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 13;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Ananke.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ананке</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Ананке</center></h1></font>"));
     showSatellite(12);
 }
 void MainWindow:: Satellite14()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 14;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Karme.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Карме</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Карме</center></h1></font>"));
     showSatellite(13);
 }
 void MainWindow:: Satellite15()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 15;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Pasife.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Писифе</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Писифе</center></h1></font>"));
     showSatellite(14);
 }
 void MainWindow:: Satellite16()
 {
     hidePlanet();
     hideSatellite();
+    current_system = "juperos";
+    current_planet = 16;
+    updateLabel();
     satelliteView->setPixmap(QPixmap(":/Sinope.jpg"));
-    planetName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Синопе</center></h1></font>"));
+    satelliteName->setText(tr("<font style=\"color:#fff; font-family:Times New Roman; font-size:40pt;\"><h1><center>Синопе</center></h1></font>"));
     showSatellite(15);
 }
 
@@ -458,34 +667,78 @@ void MainWindow:: createMenus()
 }
 
 void MainWindow:: hidePlanet(){
-    step_delta->hide();
+    //step_delta->hide();
     infoLabel->hide();
     planetView->hide();
     planetName->hide();
+    static_param->hide();
+    dynamic_param->hide();
+    days_text->hide();
+    minutes_text->hide();
+    hours_text->hide();
+    seconds_text->hide();
+    days->hide();
+    hours->hide();
+    minutes->hide();
+    seconds->hide();
+    step_delta->hide();
 }
 void MainWindow:: hideSatellite(){
-    step_delta->hide();
+    //step_delta->hide();
     infoLabel->hide();
     satelliteView->hide();
     satelliteName->hide();
+    static_param->hide();
+    dynamic_param->hide();
+    days_text->hide();
+    minutes_text->hide();
+    hours_text->hide();
+    seconds_text->hide();
+    days->hide();
+    hours->hide();
+    minutes->hide();
+    seconds->hide();
+    step_delta->hide();
 }
 
 void MainWindow:: showPlanet(int id){
     if(planetTimer->isActive())
         planetTimer->stop();
     systemDrawer->hide();
-    step_delta->show();
+    //step_delta->show();
     planetView->show();
     planetName->show();
+    static_param->show();
+    dynamic_param->show();
+    days_text->show();
+    minutes_text->show();
+    hours_text->show();
+    seconds_text->show();
+    days->show();
+    hours->show();
+    minutes->show();
+    seconds->show();
+    step_delta->show();
     //connect(step_delta, SIGNAL(clicked()), SLOT(SolarSystem::PlanetInfoShow));
 }
 void MainWindow:: showSatellite(int id){
     if(satelliteTimer->isActive())
         satelliteTimer->stop();
     juperosDrawer->hide();
-    step_delta->show();
+    //step_delta->show();
     satelliteView->show();
     satelliteName->show();
+    static_param->show();
+    dynamic_param->show();
+    days_text->show();
+    minutes_text->show();
+    hours_text->show();
+    seconds_text->show();
+    days->show();
+    hours->show();
+    minutes->show();
+    seconds->show();
+    step_delta->show();
     //connect(step_delta, SIGNAL(clicked()), SLOT(SolarSystem::PlanetInfoShow));
 }
 
@@ -497,6 +750,33 @@ void MainWindow:: PlanetMotionShow(){
 void MainWindow:: movePlanet(){
     system->step(60*60*24*10); //10 days
     systemDrawer->repaint();
+}
+
+void MainWindow::moveInTime()
+{
+    double delta = 0;
+    QString number = days->text();
+    double num = number.toDouble();
+    delta = num;
+    number = hours->text();
+    num = number.toDouble();
+    delta = 24 * delta + num;
+    number = minutes->text();
+    num = number.toDouble();
+    delta = 60 * delta + num;
+    number = seconds->text();
+    num = number.toDouble();
+    delta = 60 * delta + num;
+
+    if (current_system == "solar") {
+        Planet& planet = system->getPlanet(current_planet);
+        planet.step(delta);
+    }
+    if (current_system == "juperos") {
+        Planet& planet = juperos->getPlanet(current_planet);
+        planet.step(delta);
+    }
+    updateLabel();
 }
 
 void MainWindow:: SatelliteMotionShow(){

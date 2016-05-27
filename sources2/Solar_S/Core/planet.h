@@ -39,6 +39,10 @@ public:
      */
     double gravitationalForce() const{ return (G * (mass*SunMass)/pow(LenghtToSun,2)); }
 
+    double getTheta() const { return theta; }
+
+    double getMass() const { return mass; }
+
     /**
      * @brief Возвращает угловую скорость движения планеты
      */

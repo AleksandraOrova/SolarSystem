@@ -1,8 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QTimer>
+#include <QtWidgets>
 #include "planetview.h"
 #include "satelliteview.h"
 #include "solarsystem.h"
@@ -71,6 +70,10 @@ private:
 
     void createActions();
     void createMenus();
+    void createLabel(QLabel* , int x, int y);
+    void createLine(QLineEdit* , int x, int y);
+
+    void updateLabel();
 
     QAction *exitAct;
     QAction *undoAct;
@@ -117,8 +120,35 @@ private:
     QTimer* satelliteTimer;
     QLabel* text;
 
+    QFrame* static_param;
+    QFrame* dynamic_param;
+    QLabel* static_text_mass;
+    QLabel* static_text_period;
+    QLabel* static_text_ugl_V;
+    QLabel* dynamic_text_distance;
+    QLabel* dynamic_text_ugol;
+
+    QLabel* planet_mass;
+    QLabel* planet_period;
+    QLabel* planet_ugl_V;
+    QLabel* planet_distance;
+    QLabel* planet_ugol;
+
+    QLineEdit* days;
+    QLabel* days_text;
+    QLineEdit* hours;
+    QLabel* hours_text;
+    QLineEdit* minutes;
+    QLabel* minutes_text;
+    QLineEdit* seconds;
+    QLabel* seconds_text;
+
+    std::string current_system;
+    int current_planet;
+
 public slots:
     void movePlanet();
+    void moveInTime();
     void moveSatellite();
 };
 

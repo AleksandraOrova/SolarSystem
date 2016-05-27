@@ -13,7 +13,6 @@ class SolarSystem : public Simulator_api
 
 {
 
-
 public:
     /**
      * @brief конструктор по умолчанию
